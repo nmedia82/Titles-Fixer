@@ -39,3 +39,8 @@ export function FixTitles(data) {
   const url = `${apiURL}/fix-titles`;
   return httpService.post(url, data);
 }
+
+export function UpdateTitles(data) {
+  const url = `${apiURL}/update-titles`;
+  return httpService.post(url, data);
+}
