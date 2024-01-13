@@ -4,13 +4,17 @@ import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 import SitesManager from "./components/SitesManager";
 import useLocalStorage from "./services/useLocalStorage";
-import { FetchTitles } from "./services/model";
+import { FetchTitles, FixTitles } from "./services/model";
 import logo from "./logo.svg";
 import ProductsList from "./components/ProductsList";
 
 function AppContainer() {
   const [MySites, setMySites] = useLocalStorage("tf_sites", []);
+  const [TokenUsage, setTokenUsage] = useLocalStorage("tf_tokan_usage", []);
+  const [TitlesFixed, setTitlesFixed] = useLocalStorage("tf_tokan_usage", []);
+
   const [Products, setProducts] = useState([]);
+  const [SiteSelected, setSiteSelected] = useState("");
 
   const handleSiteAdded = (site) => {
     const my_sites = [site, ...MySites];
@@ -18,6 +22,7 @@ function AppContainer() {
   };
 
   const handleFetchProducts = (site_url) => {
+    setSiteSelected(site_url);
     try {
       FetchTitles(site_url)
         .then((products) => {
@@ -30,6 +35,11 @@ function AppContainer() {
     } catch (ex) {
       toast.error("Error while fetching titles: " + ex);
     }
+  };
+
+  const handleTitleFixed = async (titles, token_usage) => {
+    setTokenUsage(token_usage);
+    setTitlesFixed(titles);
   };
 
   return (
@@ -54,7 +64,13 @@ function AppContainer() {
             />
           )}
 
-          {Products.length > 0 && <ProductsList Products={Products} />}
+          {Products.length > 0 && (
+            <ProductsList
+              Products={Products}
+              SiteURL={SiteSelected}
+              onTitlesFixed={handleTitleFixed}
+            />
+          )}
         </div>
       </div>
       <ToastContainer />
