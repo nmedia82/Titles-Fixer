@@ -8,7 +8,7 @@ import { InfinitySpin } from "react-loader-spinner";
 
 const { consumerKey: ck, consumerSecret: cs } = config;
 
-const ProductsList = ({ Products, SiteURL, onTitlesFixed }) => {
+const ProductsList = ({ Products, TitleCredits, SiteURL, onTitlesFixed }) => {
   const [Titles, setTitles] = useState([]);
   const [status, setStatus] = useState("");
   const [IsLoading, setIsLoading] = useState(false);
@@ -18,7 +18,7 @@ const ProductsList = ({ Products, SiteURL, onTitlesFixed }) => {
       id: p.id,
       current: p.name,
       fixed: false,
-      included: true,
+      included: false,
     }));
     // console.log(titles);
     setTitles(titles);
@@ -67,9 +67,13 @@ const ProductsList = ({ Products, SiteURL, onTitlesFixed }) => {
     }
   };
 
-  const toggleTitleFixable = (id) => {
-    const updatedTitles = Titles.map((title) =>
-      title.id === id ? { ...title, included: !title.included } : title
+  const toggleTitleFixable = (title) => {
+    if (getIncludedTitles() >= TitleCredits && !title.included) {
+      return toast.error(`Max titles credits limit is ${TitleCredits}`);
+    }
+
+    const updatedTitles = Titles.map((t) =>
+      t.id === title.id ? { ...t, included: !t.included } : t
     );
     setTitles(updatedTitles);
   };
@@ -92,14 +96,14 @@ const ProductsList = ({ Products, SiteURL, onTitlesFixed }) => {
 
   const displayCurrentTitle = (title) => {
     return title.included ? (
-      <>
+      <p style={{ color: "green" }}>
         <strong>{title.id}:</strong> {title.current}
-      </>
+      </p>
     ) : (
-      <s>
+      <p>
         <strong>{title.id}:</strong>
         {title.current}
-      </s>
+      </p>
     );
   };
 
@@ -173,7 +177,7 @@ const ProductsList = ({ Products, SiteURL, onTitlesFixed }) => {
                   {!title.fixed && (
                     <Button
                       variant="link"
-                      onClick={() => toggleTitleFixable(title.id)}
+                      onClick={() => toggleTitleFixable(title)}
                     >
                       <FaCheck color={title.included ? "green" : "gray"} />
                     </Button>
@@ -183,9 +187,9 @@ const ProductsList = ({ Products, SiteURL, onTitlesFixed }) => {
             ))}
           </ListGroup>
           <Card.Footer>
-            <Button onClick={handleTitleFixing} variant="primary">
-              Fix Titles
-            </Button>
+            <p
+              style={{ color: "green" }}
+            >{`You have ${TitleCredits} credits`}</p>
           </Card.Footer>
         </Card>
       )}

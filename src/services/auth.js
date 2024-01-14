@@ -1,9 +1,7 @@
 // import config from "../config";
 import httpService from "./http";
-import pluginData from "./data.json";
 
-const { siteurl } = pluginData;
-const endpoint = `${siteurl}/wp-json/jobdone/v1`;
+const endpoint = ``;
 
 export async function login(user_info) {
   const url = `${endpoint}/login`;
@@ -26,18 +24,16 @@ export function login_user_locally(user_data) {
     )
   );
   statuses = { "": "Select", ...statuses };
-  localStorage.setItem("user", JSON.stringify(user_data.user));
-  localStorage.setItem("wc_statuses", JSON.stringify(statuses));
-  localStorage.setItem("user_roles", JSON.stringify(user_data.user_roles));
+  localStorage.setItem("tf_user", JSON.stringify(user_data.user));
 }
 
 export function logout() {
-  localStorage.removeItem("user");
+  localStorage.removeItem("tf_user");
 }
 
 export function getUserID() {
   try {
-    let user = localStorage.getItem("user");
+    let user = localStorage.getItem("tf_user");
     user = JSON.parse(user);
     return user.ID;
   } catch (ex) {
@@ -47,7 +43,7 @@ export function getUserID() {
 
 export function getCurrentUser() {
   try {
-    const user = localStorage.getItem("user");
+    const user = localStorage.getItem("tf_user");
     return JSON.parse(user);
   } catch (ex) {
     return null;

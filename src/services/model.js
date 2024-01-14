@@ -35,12 +35,17 @@ export function FetchTitles(site_url) {
   });
 }
 
-export function FixTitles(data) {
-  const url = `${apiURL}/fix-titles`;
+export function AddWebsite(data) {
+  const url = `${apiURL}/add-website`;
   return httpService.post(url, data);
 }
 
 export function UpdateTitles(data) {
   const url = `${apiURL}/update-titles`;
+  return httpService.post(url, data);
+}
+
+export function FixTitles(data) {
+  const url = `${apiURL}/fix-titles`;
   return httpService.post(url, data);
 }

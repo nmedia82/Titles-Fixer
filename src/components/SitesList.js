@@ -9,8 +9,11 @@ const SitesList = ({ sites, onFetchProducts }) => {
           key={index}
           className="d-flex justify-content-between align-items-center"
         >
-          {site}
-          <Button variant="primary" onClick={() => onFetchProducts(site)}>
+          {site.site_url}
+          <Button
+            variant="primary"
+            onClick={() => onFetchProducts(site.site_url)}
+          >
             Fetch Products
           </Button>
         </ListGroup.Item>
