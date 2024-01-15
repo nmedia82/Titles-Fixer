@@ -3,9 +3,9 @@ import httpService from "./http";
 import config from "./../config.json";
 // import { getUserID, getUserRole } from "./auth";
 
-const { apiURL, consumerKey, consumerSecret } = config;
+const { apiURL } = config;
 
-export function FetchTitles(site_url) {
+export function FetchTitles(site_url, consumerKey, consumerSecret) {
   return new Promise((resolve, reject) => {
     const apiUrl = `${site_url}/wp-json/wc/v3/products/`;
 
@@ -33,6 +33,11 @@ export function FetchTitles(site_url) {
         reject(error); // Reject the promise with the error
       });
   });
+}
+
+export function GetWebsiteInfo(user_id, website_id) {
+  const url = `${apiURL}/get-website-info/${user_id}/${website_id}`;
+  return httpService.get(url);
 }
 
 export function AddWebsite(data) {

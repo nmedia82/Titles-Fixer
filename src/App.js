@@ -1,10 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 import SitesManager from "./components/SitesManager";
 import useLocalStorage from "./services/useLocalStorage";
-import { AddWebsite, FetchTitles, FixTitles } from "./services/model";
+import {
+  AddWebsite,
+  FetchTitles,
+  FixTitles,
+  GetWebsiteInfo,
+} from "./services/model";
 import { InfinitySpin } from "react-loader-spinner";
 import logo from "./logo.svg";
 import ProductsList from "./components/ProductsList";
@@ -23,6 +28,39 @@ function AppContainer() {
   const [SiteSelected, setSiteSelected] = useState("");
   const [IsLoading, setIsLoading] = useState(false);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const successParam = urlParams.get("success");
+      const user_id = urlParams.get("user_id");
+
+      if (successParam === "1") {
+        const [userId, websiteId] = user_id.split(":");
+        setIsLoading(true);
+
+        try {
+          const { data } = await GetWebsiteInfo(userId, websiteId);
+          // Update the MySites array
+          setMySites((prevMySites) => {
+            return prevMySites.map((site) => {
+              if (site.WebsiteId === websiteId) {
+                return { ...data };
+              }
+              return site;
+            });
+          });
+
+          setIsLoading(false);
+        } catch (error) {
+          console.error("Error fetching website info:", error);
+          setIsLoading(false);
+        }
+      }
+    };
+
+    fetchData();
+  }, [setMySites]);
+
   const handleSiteAdded = async (site_url) => {
     let my_sites = [...MySites];
     if (!IsAllowedToAddWebsite(my_sites))
@@ -36,11 +74,12 @@ function AppContainer() {
     setIsLoading(false);
   };
 
-  const handleFetchProducts = (site_url) => {
+  const handleFetchProducts = (website) => {
     try {
       setIsLoading(true);
+      const { site_url, consumer_key, consumer_secret } = website;
       setSiteSelected(site_url);
-      FetchTitles(site_url)
+      FetchTitles(site_url, consumer_key, consumer_secret)
         .then((products) => {
           console.log(products);
           setProducts(products);
