@@ -18,14 +18,14 @@ import { IsAllowedToAddWebsite } from "./services/helper";
 function AppContainer() {
   const [MySites, setMySites] = useLocalStorage("tf_sites", []);
   const [TokenUsage, setTokenUsage] = useLocalStorage("tf_tokan_usage", []);
-  const [TitlesFixed, setTitlesFixed] = useLocalStorage("tf_tokan_usage", []);
+  // const [TitlesFixed, setTitlesFixed] = useLocalStorage("tf_tokan_usage", []);
   const [TitleCredits, setTitleCredits] = useLocalStorage(
     "tf_title_credits",
     0
   );
 
   const [Products, setProducts] = useState([]);
-  const [SiteSelected, setSiteSelected] = useState("");
+  const [SiteSelected, setSiteSelected] = useState({});
   const [IsLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -78,7 +78,7 @@ function AppContainer() {
     try {
       setIsLoading(true);
       const { site_url, consumer_key, consumer_secret } = website;
-      setSiteSelected(site_url);
+      setSiteSelected(website);
       FetchTitles(site_url, consumer_key, consumer_secret)
         .then((products) => {
           console.log(products);
@@ -95,9 +95,10 @@ function AppContainer() {
     }
   };
 
-  const handleTitleFixed = async (titles, token_usage) => {
+  const handleTitleFixed = async (titles, token_usage, title_credits) => {
     setTokenUsage(token_usage);
-    setTitlesFixed(titles);
+    // setTitlesFixed(titles);
+    setTitleCredits(title_credits);
   };
 
   return (
@@ -133,7 +134,7 @@ function AppContainer() {
             {Products.length > 0 && (
               <ProductsList
                 Products={Products}
-                SiteURL={SiteSelected}
+                Website={SiteSelected}
                 onTitlesFixed={handleTitleFixed}
                 TitleCredits={TitleCredits}
               />

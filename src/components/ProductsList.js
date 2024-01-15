@@ -8,10 +8,12 @@ import { InfinitySpin } from "react-loader-spinner";
 
 const { consumerKey: ck, consumerSecret: cs } = config;
 
-const ProductsList = ({ Products, TitleCredits, SiteURL, onTitlesFixed }) => {
+const ProductsList = ({ Products, TitleCredits, Website, onTitlesFixed }) => {
   const [Titles, setTitles] = useState([]);
   const [status, setStatus] = useState("");
   const [IsLoading, setIsLoading] = useState(false);
+
+  const { site_url, UserId, WebsiteId } = Website;
 
   useEffect(() => {
     let titles = Products.map((p) => ({
@@ -29,9 +31,14 @@ const ProductsList = ({ Products, TitleCredits, SiteURL, onTitlesFixed }) => {
       setIsLoading(true);
       let titles = Titles.filter((t) => t.included);
       //   return console.log(titles);
-      const postData = { titles, user_prompt: "" };
+      const postData = {
+        site_id: WebsiteId,
+        user_id: UserId,
+        titles,
+        user_prompt: "",
+      };
       const { data } = await FixTitles(postData);
-      const { fixed_titles, token_usage } = data;
+      const { fixed_titles, token_usage, title_credits } = data;
       titles = titles.map((t, i) => ({
         ...t,
         fixed: true,
@@ -42,7 +49,7 @@ const ProductsList = ({ Products, TitleCredits, SiteURL, onTitlesFixed }) => {
       setStatus("fixed");
 
       // uplifting state to app.js
-      onTitlesFixed(titles, token_usage);
+      onTitlesFixed(titles, token_usage, title_credits);
       setIsLoading(false);
 
       //   console.log(titles);
@@ -55,7 +62,7 @@ const ProductsList = ({ Products, TitleCredits, SiteURL, onTitlesFixed }) => {
     try {
       setIsLoading(true);
       let titles = Titles.filter((t) => t.included);
-      const postData = { site_url: SiteURL, ck, cs, titles };
+      const postData = { site_url, ck, cs, titles };
       //   return console.log(postData);
       const { data } = await UpdateTitles(postData);
       setIsLoading(false);
@@ -83,7 +90,7 @@ const ProductsList = ({ Products, TitleCredits, SiteURL, onTitlesFixed }) => {
       id: p.id,
       current: p.name,
       fixed: false,
-      included: true,
+      included: false,
     }));
     // console.log(titles);
     setTitles(titles);
@@ -157,7 +164,7 @@ const ProductsList = ({ Products, TitleCredits, SiteURL, onTitlesFixed }) => {
                   </>
                 )}
               </div>
-              <span>{SiteURL}</span>
+              <span>{site_url}</span>
             </div>
           </Card.Header>
           <ListGroup variant="flush">
