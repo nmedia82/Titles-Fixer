@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useSyncExternalStore } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
@@ -14,6 +14,7 @@ import { InfinitySpin } from "react-loader-spinner";
 import logo from "./logo.svg";
 import ProductsList from "./components/ProductsList";
 import { IsAllowedToAddWebsite } from "./services/helper";
+import PricingContainer from "./components/price-table/pricing-component-container";
 
 function AppContainer() {
   const [MySites, setMySites] = useLocalStorage("tf_sites", []);
@@ -27,6 +28,7 @@ function AppContainer() {
   const [Products, setProducts] = useState([]);
   const [SiteSelected, setSiteSelected] = useState({});
   const [IsLoading, setIsLoading] = useState(false);
+  const [View, setView] = useState("home");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -63,8 +65,10 @@ function AppContainer() {
 
   const handleSiteAdded = async (site_url) => {
     let my_sites = [...MySites];
-    if (!IsAllowedToAddWebsite(my_sites))
+    if (!IsAllowedToAddWebsite(my_sites)) {
+      setView("buy");
       return toast.error(`Sorry, you reached max limit of your free credit`);
+    }
 
     setIsLoading(true);
     const { data: website } = await AddWebsite({ site_url });
@@ -81,7 +85,7 @@ function AppContainer() {
       setSiteSelected(website);
       FetchTitles(site_url, consumer_key, consumer_secret)
         .then((products) => {
-          console.log(products);
+          setView("products");
           setProducts(products);
           setIsLoading(false);
         })
@@ -96,6 +100,7 @@ function AppContainer() {
   };
 
   const handleTitleFixed = async (titles, token_usage, title_credits) => {
+    setView("home");
     setTokenUsage(token_usage);
     // setTitlesFixed(titles);
     setTitleCredits(title_credits);
@@ -123,7 +128,7 @@ function AppContainer() {
           />
         ) : (
           <div className="col-md-12">
-            {Products.length === 0 && (
+            {View === "home" && (
               <SitesManager
                 onSiteAdded={handleSiteAdded}
                 MySites={MySites}
@@ -131,7 +136,7 @@ function AppContainer() {
               />
             )}
 
-            {Products.length > 0 && (
+            {View === "products" && (
               <ProductsList
                 Products={Products}
                 Website={SiteSelected}
@@ -139,6 +144,8 @@ function AppContainer() {
                 TitleCredits={TitleCredits}
               />
             )}
+
+            {View === "buy" && <PricingContainer />}
           </div>
         )}
       </div>

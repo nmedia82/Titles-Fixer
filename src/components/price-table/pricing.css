@@ -1,0 +1,257 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  --verylightgrayblue: hsl(240, 78%, 98%);
+  --lightgrayishblue: hsl(234, 14%, 74%);
+  --grayishblue: hsl(233, 13%, 49%);
+  --darkgrayishblue: hsl(232, 13%, 33%);
+  --lineargradient: linear-gradient(90deg, var(--gradient1), var(--gradient2));
+  --lineargradient2: linear-gradient(
+    145deg,
+    var(--gradient2),
+    var(--gradient1)
+  );
+  --gradient1: hsl(236, 72%, 79%);
+  --gradient2: hsl(237, 63%, 64%);
+  font-family: "Montserrat", sans-serif;
+  background: var(--verylightgrayblue);
+}
+
+.pricing-container {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+}
+.pricing-container img:nth-child(1) {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.pricing-container img:nth-child(2) {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+.pricing-body {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.pricing-container h1 {
+  font-family: Montserrat;
+  font-weight: 700;
+  color: var(--grayishblue);
+  margin-bottom: 3rem;
+}
+.toggle-row {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 3rem;
+}
+.toggle-row p {
+  font-family: Montserrat;
+  color: var(--lightgrayishblue);
+  margin-top: 5px;
+  font-weight: 700;
+}
+.toggle-container {
+  position: relative;
+  width: 70px;
+  height: 30px;
+  margin: 0 1rem;
+}
+.toggle-switch[type="checkbox"] {
+  width: 70px;
+  height: 30px;
+  -webkit-appearance: none;
+  appearance: none;
+  outline: none;
+  background: var(--lineargradient);
+  border-radius: 20px;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  transition: all 1s cubic-bezier(0.11, 0, 0.5, 0);
+}
+
+.toggle-switch:checked[type="checkbox"] {
+  background: var(--lineargradient2);
+}
+
+.toggle-switch[type="checkbox"]::before {
+  content: " ";
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  border-radius: 20px;
+  top: 0;
+  left: 0;
+  background: var(--verylightgrayblue);
+  transform: scale(1.1);
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
+  transition: 0.8s ease;
+}
+.toggle-switch:checked[type="checkbox"]::before {
+  left: 40px;
+}
+
+.toggle-switch:checked ~ .pricing-card-container {
+  visibility: hidden;
+}
+
+.pricing-card-container {
+  display: flex;
+  justify-content: center;
+  visibility: visible;
+}
+.pricing-card {
+  width: 15rem;
+  height: auto;
+  padding: 1.5rem;
+  border-radius: 10px;
+  background: #fcfeff;
+  box-shadow: 2px 4px 8px 0px rgba(46, 61, 73, 0.2);
+  margin: 0 0.5rem;
+  transition: all 0.6s ease;
+}
+.pricing-card:hover {
+  background: var(--lineargradient);
+  color: #fcfeff !important;
+  box-shadow: 0 35px 20px #777;
+  margin: 0 -1rem;
+  z-index: 1;
+}
+.pricing-card:hover p,
+.pricing-card:hover .toggle-monthly,
+.pricing-card:hover .toggle-monthly span,
+.pricing-card:hover .toggle-annually,
+.pricing-card:hover .toggle-annually span {
+  color: #fcfeff !important;
+  transition: all 0.6s ease;
+}
+.pricing-header {
+  margin: 1rem 1rem 0 1rem !important;
+}
+.pricing-card p:nth-child(1) {
+  font-family: Montserrat;
+  font-size: 15px;
+  margin: 1rem;
+  color: var(--grayishblue);
+}
+.price-container {
+  height: 6rem;
+  overflow: hidden;
+}
+.toggle-monthly,
+.toggle-annually {
+  font-size: 3.5em !important;
+  font-weight: 700;
+  font-family: Montserrat;
+  margin-bottom: 1rem !important;
+  color: var(--darkgrayishblue) !important;
+  display: flex;
+  justify-content: center;
+  transform: translateY(0px);
+  transition: all 0.6s ease;
+}
+
+.toggle-monthly.active,
+.toggle-annually.active {
+  transform: translateY(-5rem);
+}
+.toggle-monthly span,
+.toggle-annually span {
+  font-family: Montserrat;
+  font-size: 0.7em;
+  margin: auto 5px;
+  font-weight: 700;
+  color: var(--darkgrayishblue) !important;
+}
+
+.pricing-card ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.pricing-card li {
+  margin: 0.5rem 1rem;
+  border-top: 1px solid var(--lightgrayishblue);
+  border-spacing: 1rem auto;
+}
+
+.pricing-card button {
+  margin: 1rem;
+  padding: 0.7rem 4rem;
+  color: #fcfeff;
+  background: var(--lineargradient);
+  border-radius: 7px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 11px;
+  border: none;
+  font-weight: 100;
+  overflow: hidden;
+  position: relative;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.6s ease;
+}
+.pricing-card button:focus,
+.pricing-card button:active {
+  outline: none;
+}
+.pricing-card:hover button {
+  background: #fcfeff;
+  color: var(--gradient2);
+  outline: none;
+}
+.pricing-card button:after {
+  background: var(--grayishblue);
+  content: "";
+  height: 155px;
+  left: -75px;
+  opacity: 0.1;
+  position: absolute;
+  top: -50px;
+  -webkit-transform: rotate(35deg);
+  transform: rotate(35deg);
+  transition: all 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+  width: 50px;
+}
+
+.pricing-card button:hover {
+  box-shadow: 2px 4px 8px 0px rgba(46, 61, 73, 0.2);
+}
+.pricing-card button:hover:after {
+  left: 120%;
+  transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+@media (max-width: 950px) {
+  .pricing-container {
+    height: 200vh;
+  }
+  .pricing-body {
+    transform: translate(-50%, -44%);
+  }
+  .pricing-card-container {
+    flex-wrap: wrap;
+  }
+  .pricing-card {
+    margin: 0 auto 2rem auto;
+  }
+  .pricing-card:hover {
+    margin: 0 auto 2rem auto;
+  }
+  .pricing-container img:nth-child(1) {
+    width: 50%;
+  }
+  .pricing-container img:nth-child(2) {
+    width: 50%;
+  }
+}
