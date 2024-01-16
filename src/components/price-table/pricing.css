@@ -24,7 +24,7 @@ body {
 
 .pricing-container {
   width: 100%;
-  height: 100vh;
+  height: 75vh;
   position: relative;
 }
 .pricing-container img:nth-child(1) {
@@ -150,8 +150,8 @@ body {
 }
 .toggle-monthly,
 .toggle-annually {
-  font-size: 3.5em !important;
-  font-weight: 700;
+  font-size: 2.3em !important;
+  font-weight: 500;
   font-family: Montserrat;
   margin-bottom: 1rem !important;
   color: var(--darkgrayishblue) !important;

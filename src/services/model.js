@@ -40,6 +40,11 @@ export function GetWebsiteInfo(user_id, website_id) {
   return httpService.get(url);
 }
 
+export function SignupUser(data) {
+  const url = `${apiURL}/add-user`;
+  return httpService.post(url, data);
+}
+
 export function AddWebsite(data) {
   const url = `${apiURL}/add-website`;
   return httpService.post(url, data);

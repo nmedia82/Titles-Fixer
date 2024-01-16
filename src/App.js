@@ -7,16 +7,19 @@ import useLocalStorage from "./services/useLocalStorage";
 import {
   AddWebsite,
   FetchTitles,
-  FixTitles,
   GetWebsiteInfo,
+  SignupUser,
 } from "./services/model";
 import { InfinitySpin } from "react-loader-spinner";
-import logo from "./logo.svg";
 import ProductsList from "./components/ProductsList";
 import { IsAllowedToAddWebsite } from "./services/helper";
 import PricingContainer from "./components/price-table/pricing-component-container";
+import Header from "./components/Header";
+import AuthForm from "./components/auth/Auth";
+import { logout } from "./services/auth";
 
 function AppContainer() {
+  const [User, setUser] = useLocalStorage("tf_user", null);
   const [MySites, setMySites] = useLocalStorage("tf_sites", []);
   const [TokenUsage, setTokenUsage] = useLocalStorage("tf_tokan_usage", []);
   // const [TitlesFixed, setTitlesFixed] = useLocalStorage("tf_tokan_usage", []);
@@ -28,7 +31,7 @@ function AppContainer() {
   const [Products, setProducts] = useState([]);
   const [SiteSelected, setSiteSelected] = useState({});
   const [IsLoading, setIsLoading] = useState(false);
-  const [View, setView] = useState("home");
+  const [View, setView] = useState("Home");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -60,14 +63,34 @@ function AppContainer() {
       }
     };
 
+    console.log(User);
+
     fetchData();
   }, [setMySites]);
+
+  const handleLogout = () => {
+    logout();
+    window.location.reload();
+  };
+
+  const handleAuth = async (auth_data) => {
+    // return console.log(auth_data);
+    try {
+      setIsLoading(true);
+      let { data } = await SignupUser(auth_data);
+      delete data.user_password;
+      setUser({ ...data });
+      setIsLoading(false);
+    } catch (e) {
+      console.error("Error fetching website info:", e);
+      setIsLoading(false);
+    }
+  };
 
   const handleSiteAdded = async (site_url) => {
     let my_sites = [...MySites];
     if (!IsAllowedToAddWebsite(my_sites)) {
-      setView("buy");
-      return toast.error(`Sorry, you reached max limit of your free credit`);
+      return setView("buy");
     }
 
     setIsLoading(true);
@@ -100,7 +123,7 @@ function AppContainer() {
   };
 
   const handleTitleFixed = async (titles, token_usage, title_credits) => {
-    setView("home");
+    setView("Home");
     setTokenUsage(token_usage);
     // setTitlesFixed(titles);
     setTitleCredits(title_credits);
@@ -108,16 +131,7 @@ function AppContainer() {
 
   return (
     <div className="container mt-5">
-      <div className="d-flex justify-content-between align-items-center">
-        <img
-          src={logo}
-          alt="Your Logo"
-          className="app-logo img-fluid"
-          style={{ width: "100px", height: "100px" }}
-        />
-        <nav className="display-6">TitleFixer App</nav>
-        <nav>Home</nav>
-      </div>
+      <Header onNavClick={setView} User={User} onLogout={handleLogout} />
       <div className="row mt-4">
         {IsLoading ? (
           <InfinitySpin
@@ -128,7 +142,7 @@ function AppContainer() {
           />
         ) : (
           <div className="col-md-12">
-            {View === "home" && (
+            {View === "Home" && (
               <SitesManager
                 onSiteAdded={handleSiteAdded}
                 MySites={MySites}
@@ -146,6 +160,8 @@ function AppContainer() {
             )}
 
             {View === "buy" && <PricingContainer />}
+
+            {View === "Login" && <AuthForm onAuth={handleAuth} />}
           </div>
         )}
       </div>
