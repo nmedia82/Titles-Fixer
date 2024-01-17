@@ -1,29 +1,22 @@
-// import config from "../config";
 import httpService from "./http";
+import config from "./../config.json";
 
-const endpoint = ``;
+const { apiURL } = config;
 
 export async function login(user_info) {
-  const url = `${endpoint}/login`;
+  const url = `${apiURL}/login-user`;
   const { data } = await httpService.post(url, user_info);
   // console.log(user.success);
-  const { success, data: response } = data;
-  if (success) {
-    login_user_locally(response);
+
+  if (!data.error) {
+    login_user_locally(data);
     return;
   }
 
-  throw new Error("Username/password is invalid");
+  throw new Error(data.error);
 }
 
 export function login_user_locally(user_data) {
-  const allowed = ["wc-in-progress", "wc-revise", "wc-send"];
-  let statuses = Object.fromEntries(
-    Object.entries(user_data.statuses).filter(([key, value]) =>
-      allowed.includes(key)
-    )
-  );
-  statuses = { "": "Select", ...statuses };
   localStorage.setItem("tf_user", JSON.stringify(user_data.user));
 }
 
