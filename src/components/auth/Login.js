@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Form } from "react-bootstrap";
 
-export function Login({ onFormValueInpu }) {
+export function Login({ onFormValueInput }) {
   return (
     <div>
       <Form.Group controlId="loginEmail">
@@ -10,7 +10,7 @@ export function Login({ onFormValueInpu }) {
           name="_email"
           type="email"
           placeholder="Enter email"
-          onChange={(e) => onFormValueInpu(e)}
+          onChange={(e) => onFormValueInput(e)}
         />
       </Form.Group>
 
@@ -20,7 +20,7 @@ export function Login({ onFormValueInpu }) {
           name="_password"
           type="password"
           placeholder="Password"
-          onChange={(e) => onFormValueInpu(e)}
+          onChange={(e) => onFormValueInput(e)}
         />
       </Form.Group>
     </div>

@@ -3,14 +3,14 @@ import config from "./../config.json";
 
 const { apiURL } = config;
 
-export async function login(user_info) {
+export async function loginUser(user_info) {
   const url = `${apiURL}/login-user`;
   const { data } = await httpService.post(url, user_info);
-  // console.log(user.success);
+  // console.log(data);
 
   if (!data.error) {
     login_user_locally(data);
-    return;
+    return data;
   }
 
   throw new Error(data.error);
@@ -57,7 +57,7 @@ export function getUserRole() {
 }
 
 export default {
-  login,
+  loginUser,
   logout,
   getCurrentUser,
 };

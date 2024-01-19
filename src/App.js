@@ -16,7 +16,7 @@ import { IsAllowedToAddWebsite } from "./services/helper";
 import PricingContainer from "./components/price-table/pricing-component-container";
 import Header from "./components/Header";
 import AuthForm from "./components/auth/Auth";
-import { logout } from "./services/auth";
+import auth, { loginUser, logout } from "./services/auth";
 
 function AppContainer() {
   const [User, setUser] = useLocalStorage("tf_user", null);
@@ -73,16 +73,30 @@ function AppContainer() {
     window.location.reload();
   };
 
-  const handleAuth = async (auth_data) => {
+  const handleAuth = async (auth_data, is_registered) => {
     // return console.log(auth_data);
+    if (is_registered && auth_data._password !== auth_data._password2) {
+      return toast.error("Passwords are not mached.");
+    }
     try {
       setIsLoading(true);
-      let { data } = await SignupUser(auth_data);
-      delete data.user_password;
-      setUser({ ...data });
+      let user_info = {};
+      let view = "Home";
+      if (is_registered) {
+        let { data } = await SignupUser(auth_data);
+        user_info = data;
+        view = "Buy";
+      } else {
+        user_info = await loginUser(auth_data);
+        console.log(user_info);
+      }
+
+      delete user_info.user_password;
+      setUser(user_info);
       setIsLoading(false);
+      setView(view);
     } catch (e) {
-      console.error("Error fetching website info:", e);
+      toast.error(e.message);
       setIsLoading(false);
     }
   };
@@ -90,7 +104,7 @@ function AppContainer() {
   const handleSiteAdded = async (site_url) => {
     let my_sites = [...MySites];
     if (!IsAllowedToAddWebsite(my_sites)) {
-      return setView("buy");
+      return setView("Buy");
     }
 
     setIsLoading(true);
@@ -159,7 +173,7 @@ function AppContainer() {
               />
             )}
 
-            {View === "buy" && <PricingContainer />}
+            {View === "Buy" && <PricingContainer />}
 
             {View === "Login" && <AuthForm onAuth={handleAuth} />}
           </div>

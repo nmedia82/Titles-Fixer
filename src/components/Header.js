@@ -37,13 +37,13 @@ const Header = ({ User, onNavClick, onLogout }) => {
             onClick={() => handleNavClick("Login")}
             variant={activeNavItem === "Login" ? "primary" : "secondary"}
           >
-            Login
+            Login/Register
           </Button>
           <Button
-            onClick={() => handleNavClick("Register")}
-            variant={activeNavItem === "Register" ? "primary" : "secondary"}
+            onClick={() => handleNavClick("Buy")}
+            variant={activeNavItem === "" ? "primary" : "secondary"}
           >
-            Register
+            Packages
           </Button>
         </ButtonGroup>
       ) : (
@@ -53,13 +53,13 @@ const Header = ({ User, onNavClick, onLogout }) => {
           </Button>
           <Button
             onClick={() => handleNavClick("Settings")}
-            variant={activeNavItem === "Settings" ? "primary" : "secondary"}
+            variant={activeNavItem === "Settings" ? "primary" : "success"}
           >
             Settings
           </Button>
           <Button
             onClick={() => handleNavClick("Logout")}
-            variant={activeNavItem === "Logout" ? "primary" : "secondary"}
+            variant={activeNavItem === "Logout" ? "primary" : "success"}
           >
             Logout
           </Button>
