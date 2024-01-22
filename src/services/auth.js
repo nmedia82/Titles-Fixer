@@ -28,7 +28,7 @@ export function getUserID() {
   try {
     let user = localStorage.getItem("tf_user");
     user = JSON.parse(user);
-    return user.ID;
+    return user.UserId;
   } catch (ex) {
     return null;
   }

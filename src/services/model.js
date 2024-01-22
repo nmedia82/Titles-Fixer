@@ -59,3 +59,13 @@ export function FixTitles(data) {
   const url = `${apiURL}/fix-titles`;
   return httpService.post(url, data);
 }
+
+export function AddTransaction(data) {
+  const url = `${apiURL}/add-transaction`;
+  return httpService.post(url, data);
+}
+
+export function AddCredits(data) {
+  const url = `${apiURL}/add-credits`;
+  return httpService.post(url, data);
+}

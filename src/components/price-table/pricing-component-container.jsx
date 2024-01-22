@@ -6,8 +6,11 @@ import { initializePaddle, Paddle } from "@paddle/paddle-js";
 
 import "./pricing.css";
 import { toast } from "react-toastify";
+import { AddTransaction } from "../../services/model";
+import { getUserID } from "../../services/auth";
 
-const PricingContainer = () => {
+const user_id = getUserID();
+const PricingContainer = ({ onPaymentCompleted }) => {
   const [isMontlyActive, setIsMontlyActive] = useState(false);
   const [paddle, setPaddle] = useState("");
 
@@ -16,9 +19,21 @@ const PricingContainer = () => {
     paddleEnv === "sandbox" ? "test_4965d0e9be2db08e51a606fbcea" : "";
 
   const sandboxPrices = {
-    starter: "pri_01hm99j6d0vcvfbgd53h8h1fkn",
-    economy: "pri_01hm99kjypqbtdxhc570kmans6",
-    agency: "pri_01hm99nafz9ppcqz5axe38wnpt",
+    starter: {
+      price_id: "pri_01hm99j6d0vcvfbgd53h8h1fkn",
+      title_credits: 100,
+      website_credits: 1,
+    },
+    economy: {
+      price_id: "pri_01hm99kjypqbtdxhc570kmans6",
+      title_credits: 1000,
+      website_credits: 5,
+    },
+    agency: {
+      price_id: "pri_01hm99nafz9ppcqz5axe38wnpt",
+      title_credits: 5000,
+      website_credits: 25,
+    },
   };
 
   useEffect(() => {
@@ -27,8 +42,27 @@ const PricingContainer = () => {
 
       try {
         const paddleInstance = await initializePaddle({
-          paddleEnv,
-          paddleToken,
+          environment: paddleEnv,
+          token: paddleToken,
+          checkout: {
+            settings: {
+              theme: "dark",
+            },
+          },
+          eventCallback: async function (response) {
+            if ("checkout.completed" === response.name) {
+              toast.info("Checkout completed successfully, updating account");
+              const { data: transaction } = response;
+              const postData = {
+                user_id,
+                transaction_id: transaction.id,
+                details: transaction,
+              };
+              const { data: credts } = await AddTransaction(postData);
+              onPaymentCompleted(credts);
+              toast.success("Account Updated.");
+            }
+          },
         });
         if (paddleInstance) {
           setPaddle(paddleInstance);
@@ -39,15 +73,17 @@ const PricingContainer = () => {
     }
 
     initializePaddleInstance();
-  }, []);
+  }, [paddleToken, onPaymentCompleted]);
 
   const togglePricing = () => {
     setIsMontlyActive(!isMontlyActive);
   };
 
   const handleBuyPlan = (plan) => {
+    // return console.log(paddle);
     // Define the items for Paddle checkout
-    const price_id = paddleEnv === "sandbox" ? sandboxPrices[plan] : "";
+    const { price_id, title_credits, website_credits } =
+      paddleEnv === "sandbox" ? sandboxPrices[plan] : "";
     const credits = 50;
     const checkout_settings = {
       items: [
@@ -56,7 +92,7 @@ const PricingContainer = () => {
           quantity: 1,
         },
       ],
-      customData: { credits },
+      customData: { title_credits, website_credits },
     };
 
     // Use the 'credits' value and 'price_id' in your Paddle code

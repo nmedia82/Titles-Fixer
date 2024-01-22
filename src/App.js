@@ -16,7 +16,7 @@ import { IsAllowedToAddWebsite } from "./services/helper";
 import PricingContainer from "./components/price-table/pricing-component-container";
 import Header from "./components/Header";
 import AuthForm from "./components/auth/Auth";
-import auth, { loginUser, logout } from "./services/auth";
+import { loginUser, logout } from "./services/auth";
 
 function AppContainer() {
   const [User, setUser] = useLocalStorage("tf_user", null);
@@ -26,6 +26,10 @@ function AppContainer() {
   const [TitleCredits, setTitleCredits] = useLocalStorage(
     "tf_title_credits",
     0
+  );
+  const [WebsiteCredits, setWebsiteCredits] = useLocalStorage(
+    "tf_website_credits",
+    1
   );
 
   const [Products, setProducts] = useState([]);
@@ -63,10 +67,15 @@ function AppContainer() {
       }
     };
 
-    console.log(User);
+    // console.log(User);
 
     fetchData();
   }, [setMySites]);
+
+  const handlePaymentCompleted = ({ title_credits, website_credits }) => {
+    setWebsiteCredits(website_credits);
+    setTitleCredits(title_credits);
+  };
 
   const handleLogout = () => {
     logout();
@@ -173,7 +182,9 @@ function AppContainer() {
               />
             )}
 
-            {View === "Buy" && <PricingContainer />}
+            {View === "Buy" && (
+              <PricingContainer onPaymentCompleted={handlePaymentCompleted} />
+            )}
 
             {View === "Login" && <AuthForm onAuth={handleAuth} />}
           </div>

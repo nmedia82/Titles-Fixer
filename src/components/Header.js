@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import logo from "./../logo.svg";
+import logo from "./../images/Logo.png";
 import { ButtonGroup, Button } from "react-bootstrap";
 
 const Header = ({ User, onNavClick, onLogout }) => {
@@ -20,11 +20,11 @@ const Header = ({ User, onNavClick, onLogout }) => {
     <div className="d-flex justify-content-between align-items-center">
       <img
         src={logo}
-        alt="Your Logo"
+        alt="Title Fixer Online"
         className="app-logo img-fluid"
-        style={{ width: "100px", height: "100px" }}
+        style={{ width: "150px" }}
       />
-      <div className="display-6">TitleFixer App</div>
+      {!isLoggedIn() && <div className="display-6">TitleFixer App</div>}
       {!isLoggedIn() ? (
         <ButtonGroup>
           <Button
@@ -47,23 +47,31 @@ const Header = ({ User, onNavClick, onLogout }) => {
           </Button>
         </ButtonGroup>
       ) : (
-        <ButtonGroup>
-          <Button variant="dark">
+        <nav>
+          <Button variant="link">
             <span style={{ fontSize: ".75rem" }}>Hi, {User.fullname}</span>
           </Button>
-          <Button
-            onClick={() => handleNavClick("Settings")}
-            variant={activeNavItem === "Settings" ? "primary" : "success"}
-          >
-            Settings
-          </Button>
-          <Button
-            onClick={() => handleNavClick("Logout")}
-            variant={activeNavItem === "Logout" ? "primary" : "success"}
-          >
-            Logout
-          </Button>
-        </ButtonGroup>
+          <ButtonGroup>
+            <Button
+              onClick={() => handleNavClick("Buy")}
+              variant={activeNavItem === "Buy" ? "primary" : "success"}
+            >
+              Buy Credits
+            </Button>
+            <Button
+              onClick={() => handleNavClick("Settings")}
+              variant={activeNavItem === "Settings" ? "primary" : "success"}
+            >
+              Settings
+            </Button>
+            <Button
+              onClick={() => handleNavClick("Logout")}
+              variant={activeNavItem === "Logout" ? "primary" : "success"}
+            >
+              Logout
+            </Button>
+          </ButtonGroup>
+        </nav>
       )}
     </div>
   );
