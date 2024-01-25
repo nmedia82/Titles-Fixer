@@ -4,6 +4,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 import SitesManager from "./components/SitesManager";
 import useLocalStorage from "./services/useLocalStorage";
+import "./App.css";
 import {
   AddWebsite,
   FetchTitles,
@@ -12,11 +13,12 @@ import {
 } from "./services/model";
 import { InfinitySpin } from "react-loader-spinner";
 import ProductsList from "./components/ProductsList";
-import { IsAllowedToAddWebsite } from "./services/helper";
+import { ClearAddressHistory, IsAllowedToAddWebsite } from "./services/helper";
 import PricingContainer from "./components/price-table/pricing-component-container";
 import Header from "./components/Header";
 import AuthForm from "./components/auth/Auth";
 import { loginUser, logout } from "./services/auth";
+import { Container } from "react-bootstrap";
 
 function AppContainer() {
   const [User, setUser] = useLocalStorage("tf_user", null);
@@ -37,23 +39,38 @@ function AppContainer() {
   const [IsLoading, setIsLoading] = useState(false);
   const [View, setView] = useState("Home");
 
+  // console.log(User);
+
   useEffect(() => {
     const fetchData = async () => {
       const urlParams = new URLSearchParams(window.location.search);
-      const successParam = urlParams.get("success");
-      const user_id = urlParams.get("user_id");
 
-      if (successParam === "1") {
+      const callbackSuccess = urlParams.get("success");
+      const user_id = urlParams.get("user_id");
+      const surl = urlParams.get("surl");
+
+      ClearAddressHistory();
+
+      if (surl) {
+        // console.log(surl);
+        handleSiteAdded(surl);
+      }
+
+      if (callbackSuccess === "1") {
         const [userId, websiteId] = user_id.split(":");
         setIsLoading(true);
 
         try {
-          const { data } = await GetWebsiteInfo(userId, websiteId);
+          const { data: website_info } = await GetWebsiteInfo(
+            userId,
+            websiteId
+          );
+          // console.log(website_info);
           // Update the MySites array
           setMySites((prevMySites) => {
             return prevMySites.map((site) => {
               if (site.WebsiteId === websiteId) {
-                return { ...data };
+                return { ...website_info };
               }
               return site;
             });
@@ -102,6 +119,8 @@ function AppContainer() {
 
       delete user_info.user_password;
       setUser(user_info);
+      setTitleCredits(user_info.title_credits);
+      setWebsiteCredits(user_info.website_credits);
       setIsLoading(false);
       setView(view);
     } catch (e) {
@@ -117,11 +136,18 @@ function AppContainer() {
     }
 
     setIsLoading(true);
-    const { data: website } = await AddWebsite({ site_url });
+    const user_id = !User.UserId ? "guest" : User.UserId;
+    const postData = { site_url, user_id };
+    const { data: website } = await AddWebsite(postData);
     setTitleCredits(parseInt(website.title_credits));
     my_sites = [website, ...my_sites];
     setMySites(my_sites);
     setIsLoading(false);
+  };
+
+  const handleSiteRemove = (website_id) => {
+    const my_sites = MySites.filter((w) => w.WebsiteId !== website_id);
+    setMySites(my_sites);
   };
 
   const handleFetchProducts = (website) => {
@@ -146,14 +172,14 @@ function AppContainer() {
   };
 
   const handleTitleFixed = async (titles, token_usage, title_credits) => {
-    setView("Home");
+    // setView("Home");
     setTokenUsage(token_usage);
     // setTitlesFixed(titles);
     setTitleCredits(title_credits);
   };
 
   return (
-    <div className="container mt-5">
+    <Container className="mt-5">
       <Header onNavClick={setView} User={User} onLogout={handleLogout} />
       <div className="row mt-4">
         {IsLoading ? (
@@ -170,6 +196,7 @@ function AppContainer() {
                 onSiteAdded={handleSiteAdded}
                 MySites={MySites}
                 onFetchProducts={handleFetchProducts}
+                onRemoveSite={handleSiteRemove}
               />
             )}
 
@@ -191,7 +218,7 @@ function AppContainer() {
         )}
       </div>
       <ToastContainer />
-    </div>
+    </Container>
   );
 }
 

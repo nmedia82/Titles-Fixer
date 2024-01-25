@@ -19,7 +19,7 @@ body {
   --gradient1: hsl(236, 72%, 79%);
   --gradient2: hsl(237, 63%, 64%);
   font-family: "Montserrat", sans-serif;
-  background: var(--verylightgrayblue);
+  /* background: var(--verylightgrayblue); */
 }
 
 .pricing-container {

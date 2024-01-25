@@ -7,6 +7,7 @@ export function Login({ onFormValueInput }) {
       <Form.Group controlId="loginEmail">
         <Form.Label>Email address</Form.Label>
         <Form.Control
+          size="lg"
           name="_email"
           type="email"
           placeholder="Enter email"
@@ -17,6 +18,7 @@ export function Login({ onFormValueInput }) {
       <Form.Group controlId="formBasicPassword" className="mt-3">
         <Form.Label>Password</Form.Label>
         <Form.Control
+          size="lg"
           name="_password"
           type="password"
           placeholder="Password"

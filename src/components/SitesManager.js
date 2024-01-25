@@ -3,11 +3,16 @@ import { Form, Button, InputGroup } from "react-bootstrap";
 import SitesList from "./SitesList";
 import { FaPlus } from "react-icons/fa";
 
-const SitesManager = ({ MySites, onSiteAdded, onFetchProducts }) => {
+const SitesManager = ({
+  MySites,
+  onSiteAdded,
+  onFetchProducts,
+  onRemoveSite,
+}) => {
   const [siteURL, setSiteURL] = useState("");
 
   const handleAddSite = () => {
-    console.log(siteURL);
+    // console.log(siteURL);
     if (siteURL.trim() !== "") {
       onSiteAdded(siteURL);
       setSiteURL("");
@@ -24,16 +29,16 @@ const SitesManager = ({ MySites, onSiteAdded, onFetchProducts }) => {
             aria-describedby="basic-addon2"
             onChange={(e) => setSiteURL(e.target.value)}
           />
-          <Button
-            variant="outline-primary"
-            id="button-addon2"
-            onClick={handleAddSite}
-          >
+          <Button variant="success" id="button-addon2" onClick={handleAddSite}>
             <FaPlus />
           </Button>
         </InputGroup>
       </Form>
-      <SitesList sites={MySites} onFetchProducts={onFetchProducts} />
+      <SitesList
+        sites={MySites}
+        onFetchProducts={onFetchProducts}
+        onRemoveSite={onRemoveSite}
+      />
     </div>
   );
 };

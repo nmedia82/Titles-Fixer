@@ -1,47 +1,68 @@
-import React, { useState } from "react";
-import { Form } from "react-bootstrap";
+import React from "react";
+import { Form, Row, Col, Card } from "react-bootstrap";
 
 export function Signup({ onFormValueInput }) {
   return (
-    <div>
-      <Form.Group controlId="formFullname">
-        <Form.Label>Full name</Form.Label>
-        <Form.Control
-          name="_fullname"
-          type="text"
-          placeholder="Enter full name"
-          onChange={(e) => onFormValueInput(e)}
-        />
-      </Form.Group>
-      <Form.Group controlId="formBasicEmail" className="mt-3">
-        <Form.Label>Email address</Form.Label>
-        <Form.Control
-          name="_email"
-          type="email"
-          placeholder="Enter email"
-          onChange={(e) => onFormValueInput(e)}
-        />
-      </Form.Group>
+    <Card>
+      <Card.Body>
+        <Form>
+          <Row className="mb-3">
+            {/* First Column */}
+            <Col md={6}>
+              <Form.Group controlId="formFullname">
+                <Form.Label>Full name</Form.Label>
+                <Form.Control
+                  name="_fullname"
+                  type="text"
+                  size="lg"
+                  placeholder="Enter full name"
+                  onChange={(e) => onFormValueInput(e)}
+                />
+              </Form.Group>
+            </Col>
+            <Col md={6}>
+              <Form.Group controlId="formBasicEmail">
+                <Form.Label>Email</Form.Label>
+                <Form.Control
+                  name="_email"
+                  type="email"
+                  size="lg"
+                  placeholder="Enter email"
+                  onChange={(e) => onFormValueInput(e)}
+                />
+              </Form.Group>
+            </Col>
+          </Row>
 
-      <Form.Group controlId="formBasicPassword" className="mt-3">
-        <Form.Label>Password</Form.Label>
-        <Form.Control
-          name="_password"
-          type="password"
-          placeholder="Password"
-          onChange={(e) => onFormValueInput(e)}
-        />
-      </Form.Group>
-
-      <Form.Group controlId="formBasicPassword2" className="mt-3">
-        <Form.Label>Retype Password</Form.Label>
-        <Form.Control
-          name="_password2"
-          type="password"
-          placeholder="Password again"
-          onChange={(e) => onFormValueInput(e)}
-        />
-      </Form.Group>
-    </div>
+          <Row className="mb-3">
+            {/* Second Column */}
+            <Col md={6}>
+              <Form.Group controlId="formBasicPassword">
+                <Form.Label>Password</Form.Label>
+                <Form.Control
+                  name="_password"
+                  type="password"
+                  size="lg"
+                  placeholder="Password"
+                  onChange={(e) => onFormValueInput(e)}
+                />
+              </Form.Group>
+            </Col>
+            <Col md={6}>
+              <Form.Group controlId="formBasicPassword2">
+                <Form.Label>Retype Password</Form.Label>
+                <Form.Control
+                  name="_password2"
+                  type="password"
+                  size="lg"
+                  placeholder="Password again"
+                  onChange={(e) => onFormValueInput(e)}
+                />
+              </Form.Group>
+            </Col>
+          </Row>
+        </Form>
+      </Card.Body>
+    </Card>
   );
 }

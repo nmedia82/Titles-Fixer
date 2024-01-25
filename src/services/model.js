@@ -7,7 +7,7 @@ const { apiURL } = config;
 
 export function FetchTitles(site_url, consumerKey, consumerSecret) {
   return new Promise((resolve, reject) => {
-    const apiUrl = `${site_url}/wp-json/wc/v3/products/`;
+    const apiUrl = `${site_url}/wp-json/wc/v3/products/?per_page=100`;
 
     // Basic Authentication credentials
     const authHeader = {

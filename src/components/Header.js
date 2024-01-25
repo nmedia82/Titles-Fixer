@@ -22,9 +22,9 @@ const Header = ({ User, onNavClick, onLogout }) => {
         src={logo}
         alt="Title Fixer Online"
         className="app-logo img-fluid"
-        style={{ width: "150px" }}
+        style={{ width: "200px" }}
       />
-      {!isLoggedIn() && <div className="display-6">TitleFixer App</div>}
+      {/* {!isLoggedIn() && <div className="display-6">TitleFixer App</div>} */}
       {!isLoggedIn() ? (
         <ButtonGroup>
           <Button

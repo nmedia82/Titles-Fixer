@@ -9,3 +9,14 @@ export function IsAllowedToAddWebsite(websites) {
 
   return current_user.website_credits > 0;
 }
+
+export function ClearAddressHistory() {
+  // Get the current URL
+  const currentURL = window.location.href;
+
+  // Create a new URL without any parameters
+  const newURL = currentURL.split("?")[0];
+
+  // Replace the current URL with the new URL without parameters
+  window.history.replaceState({}, document.title, newURL);
+}

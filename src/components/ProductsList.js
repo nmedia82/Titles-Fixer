@@ -1,19 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { Card, ListGroup, Button, Badge } from "react-bootstrap";
-import { FaCheck, FaTrash } from "react-icons/fa"; // Import the FaCheck icon
+import { FaCheck, FaExternalLinkAlt, FaTrash } from "react-icons/fa"; // Import the FaCheck icon
 import { FixTitles, UpdateTitles } from "../services/model";
 import { toast } from "react-toastify";
 import config from "./../config.json";
 import { InfinitySpin } from "react-loader-spinner";
-
-const { consumerKey: ck, consumerSecret: cs } = config;
 
 const ProductsList = ({ Products, TitleCredits, Website, onTitlesFixed }) => {
   const [Titles, setTitles] = useState([]);
   const [status, setStatus] = useState("");
   const [IsLoading, setIsLoading] = useState(false);
 
-  const { site_url, UserId, WebsiteId } = Website;
+  const {
+    site_url,
+    UserId,
+    consumer_key: ck,
+    consumer_secret: cs,
+    WebsiteId,
+  } = Website;
+  // console.log(Website);
 
   useEffect(() => {
     let titles = Products.map((p) => ({
@@ -45,6 +50,8 @@ const ProductsList = ({ Products, TitleCredits, Website, onTitlesFixed }) => {
         new: fixed_titles[i],
       }));
 
+      // console.log(titles);
+
       setTitles(titles);
       setStatus("fixed");
 
@@ -65,9 +72,19 @@ const ProductsList = ({ Products, TitleCredits, Website, onTitlesFixed }) => {
       const postData = { site_url, ck, cs, titles };
       //   return console.log(postData);
       const { data } = await UpdateTitles(postData);
+      console.log(data.update);
       setIsLoading(false);
       toast.success(`${titles.length} titles are updated to site`);
+      setStatus("updated");
 
+      titles = data.update.map((p) => ({
+        id: p.id,
+        current: p.name,
+        fixed: true,
+        included: true,
+        permalink: p.permalink,
+      }));
+      setTitles(titles);
       //   console.log(titles);
     } catch (error) {
       toast.error("Error while creating, please click again");
@@ -188,6 +205,11 @@ const ProductsList = ({ Products, TitleCredits, Website, onTitlesFixed }) => {
                     >
                       <FaCheck color={title.included ? "green" : "gray"} />
                     </Button>
+                  )}
+                  {title.permalink && (
+                    <a target="_blank" href={title.permalink}>
+                      <FaExternalLinkAlt />
+                    </a>
                   )}
                 </div>
               </ListGroup.Item>
