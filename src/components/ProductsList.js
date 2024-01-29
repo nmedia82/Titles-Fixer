@@ -167,17 +167,16 @@ const ProductsList = ({ Products, TitleCredits, Website, onTitlesFixed }) => {
                       className="m-1"
                       disabled={getIncludedTitles() === 0}
                     >
-                      Update Titles
-                      <Badge bg="primary">{getIncludedTitles()}</Badge>
+                      Update <Badge bg="primary">{getIncludedTitles()}</Badge>
                     </Button>
-                    <Button
+                    {/* <Button
                       variant="link"
                       className="m-1"
                       color="red"
                       onClick={handleCancelFix}
                     >
                       Cancel
-                    </Button>
+                    </Button> */}
                   </>
                 )}
               </div>

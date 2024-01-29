@@ -4,3 +4,22 @@ body {
   background-repeat: no-repeat;
   /* background-color: rgba(86, 107, 225, 0.708); */
 }
+
+.nav-separator {
+  width: 1px;
+  height: 30px; /* Adjust the height as needed */
+  background-color: #ddd; /* Adjust the color as needed */
+  margin: 0 10px; /* Adjust the margin as needed for spacing */
+}
+
+.app-header {
+  justify-content: end;
+}
+@media screen and (max-width: 430px) {
+  /* Your CSS styles for screens with max-width of 430px go here */
+
+  .app-header {
+    flex-direction: column;
+    gap: 16px;
+  }
+}

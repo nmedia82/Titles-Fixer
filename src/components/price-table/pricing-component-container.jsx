@@ -52,14 +52,15 @@ const PricingContainer = ({ onPaymentCompleted }) => {
           eventCallback: async function (response) {
             if ("checkout.completed" === response.name) {
               toast.info("Checkout completed successfully, updating account");
-              const { data: transaction } = response;
+              let { data: transaction } = response;
+              transaction.date = new Date().toISOString().split("T")[0];
               const postData = {
                 user_id,
                 transaction_id: transaction.id,
                 details: transaction,
               };
-              const { data: credts } = await AddTransaction(postData);
-              onPaymentCompleted(credts);
+              const { data: credits } = await AddTransaction(postData);
+              onPaymentCompleted(credits, transaction);
               toast.success("Account Updated.");
             }
           },

@@ -2,7 +2,7 @@ import React from "react";
 import { ListGroup, Button, Card } from "react-bootstrap";
 import config from "./../config.json";
 import { getUserID } from "../services/auth";
-import { FaLink, FaTrash } from "react-icons/fa";
+import { FaExchangeAlt, FaLink, FaTrash } from "react-icons/fa";
 
 const { returnURL, callbackURL } = config;
 
@@ -45,7 +45,7 @@ const SitesList = ({ sites, onFetchProducts, onRemoveSite }) => {
                     variant="success"
                     onClick={() => onFetchProducts(site)}
                   >
-                    Fetch Products
+                    <FaExchangeAlt title="Fetch Product" />
                   </Button>
                 )}
 

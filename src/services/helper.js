@@ -20,3 +20,9 @@ export function ClearAddressHistory() {
   // Replace the current URL with the new URL without parameters
   window.history.replaceState({}, document.title, newURL);
 }
+
+export function ValidateURL(url) {
+  const urlRegex =
+    /^(http:\/\/|https:\/\/)[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/gi;
+  return urlRegex.test(url);
+}

@@ -19,11 +19,16 @@ import Header from "./components/Header";
 import AuthForm from "./components/auth/Auth";
 import { loginUser, logout } from "./services/auth";
 import { Container } from "react-bootstrap";
+import MyCredits from "./components/Credits";
 
 function AppContainer() {
   const [User, setUser] = useLocalStorage("tf_user", null);
   const [MySites, setMySites] = useLocalStorage("tf_sites", []);
   const [TokenUsage, setTokenUsage] = useLocalStorage("tf_tokan_usage", []);
+  const [Transactions, setTransactions] = useLocalStorage(
+    "tf_transactions",
+    []
+  );
   // const [TitlesFixed, setTitlesFixed] = useLocalStorage("tf_tokan_usage", []);
   const [TitleCredits, setTitleCredits] = useLocalStorage(
     "tf_title_credits",
@@ -38,6 +43,7 @@ function AppContainer() {
   const [SiteSelected, setSiteSelected] = useState({});
   const [IsLoading, setIsLoading] = useState(false);
   const [View, setView] = useState("Home");
+  const [activeNavItem, setActiveNavItem] = useState("Home");
 
   // console.log(User);
 
@@ -89,9 +95,24 @@ function AppContainer() {
     fetchData();
   }, [setMySites]);
 
-  const handlePaymentCompleted = ({ title_credits, website_credits }) => {
+  const handleNavClick = (navItem) => {
+    if (navItem === "Logout") return handleLogout();
+    setActiveNavItem(navItem);
+    setView(navItem);
+    setActiveNavItem("Home");
+    // Implement your own logic for navigation or other actions here
+  };
+
+  const handlePaymentCompleted = (
+    { title_credits, website_credits },
+    transaction
+  ) => {
     setWebsiteCredits(website_credits);
     setTitleCredits(title_credits);
+    const transactions = [transaction, ...Transactions];
+    setTransactions(transactions);
+    setView("Home");
+    // setActiveNavItem("Home");
   };
 
   const handleLogout = () => {
@@ -180,7 +201,11 @@ function AppContainer() {
 
   return (
     <Container className="mt-5">
-      <Header onNavClick={setView} User={User} onLogout={handleLogout} />
+      <Header
+        onNavClick={handleNavClick}
+        User={User}
+        activeNavItem={activeNavItem}
+      />
       <div className="row mt-4">
         {IsLoading ? (
           <InfinitySpin
@@ -211,6 +236,15 @@ function AppContainer() {
 
             {View === "Buy" && (
               <PricingContainer onPaymentCompleted={handlePaymentCompleted} />
+            )}
+
+            {View === "Credits" && (
+              <MyCredits
+                TitleCredits={TitleCredits}
+                WebsiteCredits={WebsiteCredits}
+                onViewChange={(v) => setView(v)}
+                transactions={Transactions}
+              />
             )}
 
             {View === "Login" && <AuthForm onAuth={handleAuth} />}
