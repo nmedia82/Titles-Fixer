@@ -7,10 +7,8 @@ import { initializePaddle, Paddle } from "@paddle/paddle-js";
 import "./pricing.css";
 import { toast } from "react-toastify";
 import { AddTransaction } from "../../services/model";
-import { getUserID } from "../../services/auth";
 
-const user_id = getUserID();
-const PricingContainer = ({ onPaymentCompleted }) => {
+const PricingContainer = ({ User, onPaymentCompleted }) => {
   const [isMontlyActive, setIsMontlyActive] = useState(false);
   const [paddle, setPaddle] = useState("");
 
@@ -55,7 +53,8 @@ const PricingContainer = ({ onPaymentCompleted }) => {
               let { data: transaction } = response;
               transaction.date = new Date().toISOString().split("T")[0];
               const postData = {
-                user_id,
+                user_id: User.UserId,
+                email: User.user_email,
                 transaction_id: transaction.id,
                 details: transaction,
               };
@@ -118,7 +117,7 @@ const PricingContainer = ({ onPaymentCompleted }) => {
             pricingHeader="Starter"
             priceAnnually="9.99"
             priceMonthly="6.99"
-            titlesAllowed="100 Titles"
+            titlesAllowed="200 Titles"
             websitesAllowed="Single Website"
             fastProcessingAllowed="Fast Processing"
             isMonthlyActive={isMontlyActive}
@@ -137,9 +136,9 @@ const PricingContainer = ({ onPaymentCompleted }) => {
           <PricingComponent
             pricingHeader="Agency"
             priceAnnually="99.99"
-            priceMonthly="39.99"
+            priceMonthly="75.99"
             titlesAllowed="5000 Titles"
-            websitesAllowed="25 Websites"
+            websitesAllowed="15 Websites"
             fastProcessingAllowed="Fast Processing"
             isMonthlyActive={isMontlyActive}
             onBuyPlan={() => handleBuyPlan("agency")}

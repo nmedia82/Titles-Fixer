@@ -231,11 +231,15 @@ function AppContainer() {
                 Website={SiteSelected}
                 onTitlesFixed={handleTitleFixed}
                 TitleCredits={TitleCredits}
+                User={User}
               />
             )}
 
             {View === "Buy" && (
-              <PricingContainer onPaymentCompleted={handlePaymentCompleted} />
+              <PricingContainer
+                User={User}
+                onPaymentCompleted={handlePaymentCompleted}
+              />
             )}
 
             {View === "Credits" && (
