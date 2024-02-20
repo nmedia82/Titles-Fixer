@@ -160,7 +160,7 @@ function AppContainer() {
     const user_id = !User ? "guest" : User.UserId;
     const postData = { site_url, user_id };
     const { data: website } = await AddWebsite(postData);
-    setTitleCredits(parseInt(website.title_credits));
+    user_id === "guest" && setTitleCredits(parseInt(website.title_credits));
     my_sites = [website, ...my_sites];
     setMySites(my_sites);
     setIsLoading(false);
