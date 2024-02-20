@@ -3,10 +3,15 @@ import { Card, ListGroup, Button, Badge } from "react-bootstrap";
 import { FaCheck, FaExternalLinkAlt, FaTrash } from "react-icons/fa"; // Import the FaCheck icon
 import { FixTitles, UpdateTitles } from "../services/model";
 import { toast } from "react-toastify";
-import config from "./../config.json";
 import { InfinitySpin } from "react-loader-spinner";
 
-const ProductsList = ({ Products, TitleCredits, Website, onTitlesFixed }) => {
+const ProductsList = ({
+  Products,
+  TitleCredits,
+  User,
+  Website,
+  onTitlesFixed,
+}) => {
   const [Titles, setTitles] = useState([]);
   const [status, setStatus] = useState("");
   const [IsLoading, setIsLoading] = useState(false);
@@ -18,7 +23,7 @@ const ProductsList = ({ Products, TitleCredits, Website, onTitlesFixed }) => {
     consumer_secret: cs,
     WebsiteId,
   } = Website;
-  // console.log(Website);
+  console.log(User);
 
   useEffect(() => {
     let titles = Products.map((p) => ({
@@ -41,6 +46,7 @@ const ProductsList = ({ Products, TitleCredits, Website, onTitlesFixed }) => {
         user_id: UserId,
         titles,
         user_prompt: "",
+        user_email: User.user_email,
       };
       const { data } = await FixTitles(postData);
       const { fixed_titles, token_usage, title_credits } = data;
