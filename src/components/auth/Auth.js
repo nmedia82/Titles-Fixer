@@ -17,7 +17,7 @@ function AuthForm({ onAuth }) {
   };
 
   return (
-    <div className="container" style={{ maxWidth: "600px" }}>
+    <div className="container" style={{ maxWidth: "450px" }}>
       <Form>
         {!isRegistered && <Login onFormValueInput={handleInput} />}
 
@@ -28,9 +28,9 @@ function AuthForm({ onAuth }) {
         <Button
           variant="primary"
           onClick={() => onAuth(authData, isRegistered)}
-          className="mt-3"
+          className="mt-3 w-100 auth-btn px-5"
         >
-          {isRegistered ? "Singup" : "Login"}
+          {isRegistered ? "Sign up" : "Sign in"}
         </Button>
       </Form>
 
@@ -40,7 +40,7 @@ function AuthForm({ onAuth }) {
             <p>
               Already have an account?{" "}
               <a href="#" onClick={() => setIsRegistered(!isRegistered)}>
-                Login
+                Sign in
               </a>
             </p>
           )}
@@ -48,7 +48,7 @@ function AuthForm({ onAuth }) {
             <p>
               Don't have an account?{" "}
               <a href="#" onClick={() => setIsRegistered(!isRegistered)}>
-                Signup
+                Sign up
               </a>
             </p>
           )}

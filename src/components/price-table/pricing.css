@@ -18,7 +18,8 @@ body {
   );
   --gradient1: hsl(236, 72%, 79%);
   --gradient2: hsl(237, 63%, 64%);
-  font-family: "Montserrat", sans-serif;
+  /* font-family: "Montserrat", sans-serif; */
+  font-family: "Inter", sans-serif;
   /* background: var(--verylightgrayblue); */
 }
 
@@ -118,13 +119,13 @@ body {
   background: #fcfeff;
   box-shadow: 2px 4px 8px 0px rgba(46, 61, 73, 0.2);
   margin: 0 0.5rem;
-  transition: all 0.6s ease;
+  transition: all 1.0s ease;
 }
 .pricing-card:hover {
   background: var(--lineargradient);
   color: #fcfeff !important;
   box-shadow: 0 35px 20px #777;
-  margin: 0 -1rem;
+  margin: 0 -0rem;
   z-index: 1;
 }
 .pricing-card:hover p,

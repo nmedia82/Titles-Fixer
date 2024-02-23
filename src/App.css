@@ -1,5 +1,6 @@
 body {
-  background-image: url("./images/bg1.jpg");
+  /* background-image: url("./images/bg1.jpg"); */
+  background-color: #e6e7eb;
   background-size: cover;
   background-repeat: no-repeat;
   /* background-color: rgba(86, 107, 225, 0.708); */
@@ -14,6 +15,24 @@ body {
 
 .app-header {
   justify-content: end;
+  background-color: #4fa94d;
+  padding: 15px 5px;
+}
+
+.bg-blue-custom {
+  background-color: #5721b7;
+}
+.auth-btn {
+  background-color: #5721b7;
+  border: none;
+}
+.auth-btn:hover {
+  background-color: #4fa94d;
+}
+@media screen and (max-width: 991px) {
+  .app-header {
+    justify-content: space-between;
+  }
 }
 @media screen and (max-width: 430px) {
   /* Your CSS styles for screens with max-width of 430px go here */
