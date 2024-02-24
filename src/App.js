@@ -15,7 +15,7 @@ import AuthForm from './components/auth/Auth';
 import { loginUser, logout } from './services/auth';
 import { Container, Col, Row } from 'react-bootstrap';
 import MyCredits from './components/Credits';
-import logo from './images/Logo.svg';
+import logo from './images/Logo-white.svg';
 
 function AppContainer() {
 	const [User, setUser] = useLocalStorage('tf_user', null);
@@ -30,7 +30,7 @@ function AppContainer() {
 	const [SiteSelected, setSiteSelected] = useState({});
 	const [IsLoading, setIsLoading] = useState(false);
 	const [View, setView] = useState('Login');
-	const [activeNavItem, setActiveNavItem] = useState('Home');
+	const [activeNavItem, setActiveNavItem] = useState('');
 
 	// console.log(User);
 
@@ -215,11 +215,11 @@ function AppContainer() {
 			)}
 
 			{User && (
-				<div className="p-4">
+				<div className="p-0">
 					<Header
 						onNavClick={handleNavClick}
 						User={User}
-						activeNavItem={activeNavItem}
+						// activeNavItem={activeNavItem}
 					/>
 					<div className="row mt-4">
 						{IsLoading ? (
@@ -230,7 +230,7 @@ function AppContainer() {
 								ariaLabel="infinity-spin-loading"
 							/>
 						) : (
-							<div className="col-md-12">
+							<div className="col-md-12 px-5">
 								{View === 'Home' && (
 									<SitesManager
 										onSiteAdded={handleSiteAdded}

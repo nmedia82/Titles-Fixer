@@ -12,19 +12,22 @@ body {
   background-color: #ddd; /* Adjust the color as needed */
   margin: 0 10px; /* Adjust the margin as needed for spacing */
 }
-
+.nav-color {
+  color: #fff;
+  font-weight: 500;
+}
 .app-header {
   justify-content: end;
-  background-color: #4fa94d;
-  padding: 15px 5px;
+  background-color: #198754;
+  padding: 15px 10px;
 }
-
 .bg-blue-custom {
   background-color: #5721b7;
 }
 .auth-btn {
   background-color: #5721b7;
   border: none;
+  /* color: #FDFD96; */
 }
 .auth-btn:hover {
   background-color: #4fa94d;

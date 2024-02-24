@@ -1,6 +1,7 @@
 import React from 'react';
 import { Navbar, Nav } from 'react-bootstrap';
-import logo from './../images/Logo.svg';
+import logo from './../images/Logo-white.svg';
+import '../App.css';
 
 const Header = ({ User, onNavClick, activeNavItem }) => {
 	const isLoggedIn = () => {
@@ -55,32 +56,32 @@ const Header = ({ User, onNavClick, activeNavItem }) => {
 						</>
 					) : (
 						<>
-							<Nav.Item>
+							{/* <Nav.Item>
 								<span style={{ fontSize: '.75rem' }}>Hi, {User.fullname}</span>
 							</Nav.Item>
-							<div className="nav-separator"></div>
-              <Nav.Link
+							<div className="nav-separator"></div> */}
+							<Nav.Link className='nav-color'
 								onClick={() => onNavClick('Home')}
 								active={activeNavItem === 'Home'}
 							>
 								Home
 							</Nav.Link>
-              <div className="nav-separator"></div>
-							<Nav.Link
+							<div className="nav-separator"></div>
+							<Nav.Link className='nav-color'
 								onClick={() => onNavClick('Credits')}
 								active={activeNavItem === 'Credits'}
 							>
 								Credits
 							</Nav.Link>
 							<div className="nav-separator"></div>
-							<Nav.Link
+							<Nav.Link className='nav-color'
 								onClick={() => onNavClick('Buy')}
 								active={activeNavItem === 'Buy'}
 							>
 								Packages
 							</Nav.Link>
-              <div className="nav-separator"></div>
-							<Nav.Link
+							<div className="nav-separator"></div>
+							<Nav.Link className='nav-color'
 								onClick={() => onNavClick('Logout')}
 								active={activeNavItem === 'Logout'}
 							>
