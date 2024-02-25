@@ -18,7 +18,8 @@ body {
   );
   --gradient1: hsl(236, 72%, 79%);
   --gradient2: hsl(237, 63%, 64%);
-  font-family: "Montserrat", sans-serif;
+  /* font-family: "Montserrat", sans-serif; */
+  font-family: "Inter", sans-serif;
   /* background: var(--verylightgrayblue); */
 }
 
@@ -111,20 +112,22 @@ body {
   visibility: visible;
 }
 .pricing-card {
-  width: 15rem;
+  width: 18rem;
+  text-align: center;
   height: auto;
   padding: 1.5rem;
   border-radius: 10px;
   background: #fcfeff;
   box-shadow: 2px 4px 8px 0px rgba(46, 61, 73, 0.2);
   margin: 0 0.5rem;
-  transition: all 0.6s ease;
+  transition: all 1.0s ease;
 }
 .pricing-card:hover {
-  background: var(--lineargradient);
+  /* background: var(--lineargradient); */
+  background-color: #5721b7;
   color: #fcfeff !important;
   box-shadow: 0 35px 20px #777;
-  margin: 0 -1rem;
+  margin: 0 -0rem;
   z-index: 1;
 }
 .pricing-card:hover p,
@@ -189,7 +192,8 @@ body {
   margin: 1rem;
   padding: 0.7rem 4rem;
   color: #fcfeff;
-  background: var(--lineargradient);
+  /* background: var(--lineargradient); */
+  background-color: #5721b7;
   border-radius: 7px;
   font-family: "Montserrat", sans-serif;
   font-size: 11px;

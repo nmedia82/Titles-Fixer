@@ -18,8 +18,9 @@ import PricingContainer from "./components/price-table/pricing-component-contain
 import Header from "./components/Header";
 import AuthForm from "./components/auth/Auth";
 import { loginUser, logout } from "./services/auth";
-import { Container } from "react-bootstrap";
+import { Container, Col, Row } from "react-bootstrap";
 import MyCredits from "./components/Credits";
+import logo from "./images/Logo-white.svg";
 
 function AppContainer() {
   const [User, setUser] = useLocalStorage("tf_user", null);
@@ -42,8 +43,8 @@ function AppContainer() {
   const [Products, setProducts] = useState([]);
   const [SiteSelected, setSiteSelected] = useState({});
   const [IsLoading, setIsLoading] = useState(false);
-  const [View, setView] = useState("Home");
-  const [activeNavItem, setActiveNavItem] = useState("Home");
+  const [View, setView] = useState("Login");
+  const [activeNavItem, setActiveNavItem] = useState("");
 
   // console.log(User);
 
@@ -117,7 +118,8 @@ function AppContainer() {
 
   const handleLogout = () => {
     logout();
-    window.location.reload();
+    setUser(null); // Clear user data
+    setView("Login");
   };
 
   const handleAuth = async (auth_data, is_registered) => {
@@ -160,7 +162,7 @@ function AppContainer() {
     const user_id = !User ? "guest" : User.UserId;
     const postData = { site_url, user_id };
     const { data: website } = await AddWebsite(postData);
-    user_id === "guest" && setTitleCredits(parseInt(website.title_credits));
+    setTitleCredits(parseInt(website.title_credits));
     my_sites = [website, ...my_sites];
     setMySites(my_sites);
     setIsLoading(false);
@@ -200,63 +202,98 @@ function AppContainer() {
   };
 
   return (
-    <Container className="mt-5">
-      <Header
-        onNavClick={handleNavClick}
-        User={User}
-        activeNavItem={activeNavItem}
-      />
-      <div className="row mt-4">
-        {IsLoading ? (
-          <InfinitySpin
-            visible={true}
-            width="200"
-            color="#4fa94d"
-            ariaLabel="infinity-spin-loading"
+    <div className="container-fluid p-0">
+      {View === "Login" && !User && (
+        <div className="row m-0 vh-100 p-5 ">
+          {IsLoading ? (
+            <InfinitySpin
+              visible={true}
+              width="200"
+              color="#4fa94d"
+              ariaLabel="infinity-spin-loading"
+            />
+          ) : (
+            <>
+              <div className="col-lg-6 p-0 bg-blue-custom d-flex align-items-center justify-content-center">
+                <div className="text-center text-white">
+                  <img
+                    src={logo}
+                    alt="Title Fixer Online"
+                    className="app-logo img-fluid"
+                    style={{ width: "200px" }}
+                  />
+                  <h2 className="mt-3">Welcome to Our Website</h2>
+                  <p className="mt-3">
+                    Your Ultimate Solution for Perfect E-commerce Titles
+                  </p>
+                </div>
+              </div>
+              <div className="col-lg-6 p-0 bg-white d-flex align-items-center justify-content-center">
+                <AuthForm onAuth={handleAuth} />
+              </div>
+            </>
+          )}
+        </div>
+      )}
+
+      {User && (
+        <div className="p-0">
+          <Header
+            onNavClick={handleNavClick}
+            User={User}
+            // activeNavItem={activeNavItem}
           />
-        ) : (
-          <div className="col-md-12">
-            {View === "Home" && (
-              <SitesManager
-                onSiteAdded={handleSiteAdded}
-                MySites={MySites}
-                onFetchProducts={handleFetchProducts}
-                onRemoveSite={handleSiteRemove}
+          <div className="row mt-4">
+            {IsLoading ? (
+              <InfinitySpin
+                visible={true}
+                width="200"
+                color="#4fa94d"
+                ariaLabel="infinity-spin-loading"
               />
-            )}
+            ) : (
+              <div className="col-md-12 px-5">
+                {View === "Home" && (
+                  <SitesManager
+                    onSiteAdded={handleSiteAdded}
+                    MySites={MySites}
+                    onFetchProducts={handleFetchProducts}
+                    onRemoveSite={handleSiteRemove}
+                  />
+                )}
 
-            {View === "products" && (
-              <ProductsList
-                Products={Products}
-                Website={SiteSelected}
-                onTitlesFixed={handleTitleFixed}
-                TitleCredits={TitleCredits}
-                User={User}
-              />
-            )}
+                {View === "products" && (
+                  <ProductsList
+                    Products={Products}
+                    Website={SiteSelected}
+                    onTitlesFixed={handleTitleFixed}
+                    TitleCredits={TitleCredits}
+                    User={User}
+                  />
+                )}
 
-            {View === "Buy" && (
-              <PricingContainer
-                User={User}
-                onPaymentCompleted={handlePaymentCompleted}
-              />
-            )}
+                {View === "Buy" && (
+                  <PricingContainer
+                    User={User}
+                    onPaymentCompleted={handlePaymentCompleted}
+                  />
+                )}
 
-            {View === "Credits" && (
-              <MyCredits
-                TitleCredits={TitleCredits}
-                WebsiteCredits={WebsiteCredits}
-                onViewChange={(v) => setView(v)}
-                transactions={Transactions}
-              />
+                {View === "Credits" && (
+                  <MyCredits
+                    TitleCredits={TitleCredits}
+                    WebsiteCredits={WebsiteCredits}
+                    onViewChange={(v) => setView(v)}
+                    transactions={Transactions}
+                  />
+                )}
+              </div>
             )}
-
-            {View === "Login" && <AuthForm onAuth={handleAuth} />}
           </div>
-        )}
-      </div>
+        </div>
+      )}
       <ToastContainer />
-    </Container>
+    </div>
   );
 }
 
