@@ -18,7 +18,7 @@ import PricingContainer from "./components/price-table/pricing-component-contain
 import Header from "./components/Header";
 import AuthForm from "./components/auth/Auth";
 import { loginUser, logout } from "./services/auth";
-import { Container, Col, Row } from "react-bootstrap";
+import { Container, Col, Row, Button } from "react-bootstrap";
 import MyCredits from "./components/Credits";
 import logo from "./images/Logo-white.svg";
 
@@ -45,6 +45,7 @@ function AppContainer() {
   const [IsLoading, setIsLoading] = useState(false);
   const [View, setView] = useState("Login");
   const [activeNavItem, setActiveNavItem] = useState("");
+  const [Guest, setGuest] = useState(false);
 
   // console.log(User);
 
@@ -84,6 +85,9 @@ function AppContainer() {
           });
 
           setIsLoading(false);
+
+          if (user_id === "guest") setGuest(true);
+          setView("Home");
         } catch (error) {
           console.error("Error fetching website info:", error);
           setIsLoading(false);
@@ -100,7 +104,8 @@ function AppContainer() {
     if (navItem === "Logout") return handleLogout();
     setActiveNavItem(navItem);
     setView(navItem);
-    setActiveNavItem("Home");
+    console.log(navItem);
+    // setActiveNavItem("Home");
     // Implement your own logic for navigation or other actions here
   };
 
@@ -201,6 +206,11 @@ function AppContainer() {
     setTitleCredits(title_credits);
   };
 
+  const handleDemo = () => {
+    setGuest(true);
+    setView("Home");
+  };
+
   return (
     <div className="container-fluid p-0">
       {View === "Login" && !User && (
@@ -222,10 +232,13 @@ function AppContainer() {
                     className="app-logo img-fluid"
                     style={{ width: "200px" }}
                   />
-                  <h2 className="mt-3">Welcome to Our Website</h2>
+                  <h2 className="mt-3">SEO, AI Optimized Titles</h2>
                   <p className="mt-3">
-                    Your Ultimate Solution for Perfect E-commerce Titles
+                    Create best titles for your products and increase sales.
                   </p>
+                  <Button variant="light" onClick={handleDemo}>
+                    Launch Demo
+                  </Button>
                 </div>
               </div>
               <div className="col-lg-6 p-0 bg-white d-flex align-items-center justify-content-center">
@@ -236,12 +249,12 @@ function AppContainer() {
         </div>
       )}
 
-      {User && (
+      {(User || Guest) && (
         <div className="p-0">
           <Header
             onNavClick={handleNavClick}
             User={User}
-            // activeNavItem={activeNavItem}
+            // activeNavItem={(nav) => setActiveNavItem(nav)}
           />
           <div className="row mt-4">
             {IsLoading ? (
