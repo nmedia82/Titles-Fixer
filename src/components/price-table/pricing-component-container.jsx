@@ -8,7 +8,11 @@ import "./pricing.css";
 import { toast } from "react-toastify";
 import { AddTransaction } from "../../services/model";
 
-const PricingContainer = ({ User, onPaymentCompleted }) => {
+const PricingContainer = ({
+  User,
+  onPaymentCompleted,
+  onPaymentCompletedGuest,
+}) => {
   const [isMontlyActive, setIsMontlyActive] = useState(false);
   const [paddle, setPaddle] = useState("");
 
@@ -50,17 +54,23 @@ const PricingContainer = ({ User, onPaymentCompleted }) => {
           eventCallback: async function (response) {
             if ("checkout.completed" === response.name) {
               toast.info("Checkout completed successfully, updating account");
+              paddleInstance.Checkout.close();
+
               let { data: transaction } = response;
               transaction.date = new Date().toISOString().split("T")[0];
-              const postData = {
-                user_id: User.UserId,
-                email: User.user_email,
-                transaction_id: transaction.id,
-                details: transaction,
-              };
-              const { data: credits } = await AddTransaction(postData);
-              onPaymentCompleted(credits, transaction);
-              toast.success("Account Updated.");
+              if (User) {
+                const postData = {
+                  user_id: User.UserId,
+                  email: User.user_email,
+                  transaction_id: transaction.id,
+                  details: transaction,
+                };
+                const { data: credits } = await AddTransaction(postData);
+                onPaymentCompleted(credits, transaction);
+                toast.success("Account Updated.");
+              } else {
+                onPaymentCompletedGuest();
+              }
             }
           },
         });
@@ -73,7 +83,7 @@ const PricingContainer = ({ User, onPaymentCompleted }) => {
     }
 
     initializePaddleInstance();
-  }, [paddleToken, onPaymentCompleted]);
+  }, [User, paddleToken, onPaymentCompleted]);
 
   const togglePricing = () => {
     setIsMontlyActive(!isMontlyActive);

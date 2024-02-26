@@ -44,6 +44,7 @@ function AppContainer() {
   const [SiteSelected, setSiteSelected] = useState({});
   const [IsLoading, setIsLoading] = useState(false);
   const [View, setView] = useState("Login");
+  const [GuestTransaction, setGuestTransaction] = useState({});
   const [activeNavItem, setActiveNavItem] = useState("");
 
   // console.log(User);
@@ -114,6 +115,10 @@ function AppContainer() {
     setTransactions(transactions);
     setView("Home");
     // setActiveNavItem("Home");
+  };
+
+  const handlePaymentCompletedGuest = () => {
+    setView("Login");
   };
 
   const handleLogout = () => {
@@ -276,6 +281,7 @@ function AppContainer() {
                   <PricingContainer
                     User={User}
                     onPaymentCompleted={handlePaymentCompleted}
+                    onPaymentCompletedGuest={handlePaymentCompletedGuest}
                   />
                 )}
 
