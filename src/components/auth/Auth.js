@@ -12,7 +12,7 @@ function AuthForm({ onAuth }) {
     const key = e.target.name;
     const value = e.target.value;
     const auth_data = { ...authData, [key]: value };
-    // console.log(auth_data);
+    console.log(auth_data);
     setAuthData(auth_data);
   };
 

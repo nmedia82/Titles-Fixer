@@ -26,3 +26,17 @@ export function ValidateURL(url) {
     /^(http:\/\/|https:\/\/)[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/gi;
   return urlRegex.test(url);
 }
+
+export function RegisterPageTitle(transaction) {
+  if (transaction.date) {
+    return "You Made It";
+  }
+  return "SEO, AI Optimized Titles";
+}
+
+export function RegisterPageSubtitle(transaction) {
+  if (transaction.date) {
+    return "Please fill this to complete transaction.";
+  }
+  return "Create best titles for your products and increase sales.";
+}

@@ -6,6 +6,7 @@ import SitesManager from "./components/SitesManager";
 import useLocalStorage from "./services/useLocalStorage";
 import "./App.css";
 import {
+  AddTransaction,
   AddWebsite,
   FetchTitles,
   GetWebsiteInfo,
@@ -13,7 +14,12 @@ import {
 } from "./services/model";
 import { InfinitySpin } from "react-loader-spinner";
 import ProductsList from "./components/ProductsList";
-import { ClearAddressHistory, IsAllowedToAddWebsite } from "./services/helper";
+import {
+  ClearAddressHistory,
+  IsAllowedToAddWebsite,
+  RegisterPageSubtitle,
+  RegisterPageTitle,
+} from "./services/helper";
 import PricingContainer from "./components/price-table/pricing-component-container";
 import Header from "./components/Header";
 import AuthForm from "./components/auth/Auth";
@@ -48,7 +54,7 @@ function AppContainer() {
   const [activeNavItem, setActiveNavItem] = useState("");
   const [Guest, setGuest] = useState(false);
 
-  // console.log(User);
+  // console.log(GuestTransaction);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -74,7 +80,7 @@ function AppContainer() {
             userId,
             websiteId
           );
-          // console.log(website_info);
+          console.log(website_info);
           // Update the MySites array
           setMySites((prevMySites) => {
             return prevMySites.map((site) => {
@@ -87,7 +93,7 @@ function AppContainer() {
 
           setIsLoading(false);
 
-          if (user_id === "guest") setGuest(true);
+          if (userId === "guest") setGuest(true);
           setView("Home");
         } catch (error) {
           console.error("Error fetching website info:", error);
@@ -96,7 +102,7 @@ function AppContainer() {
       }
     };
 
-    // console.log(User);
+    // console.log(Guest);
 
     fetchData();
   }, [setMySites]);
@@ -122,7 +128,9 @@ function AppContainer() {
     // setActiveNavItem("Home");
   };
 
-  const handlePaymentCompletedGuest = () => {
+  const handlePaymentCompletedGuest = (transaction) => {
+    // console.log(transaction);
+    setGuestTransaction(transaction);
     setView("Login");
   };
 
@@ -137,6 +145,7 @@ function AppContainer() {
     if (is_registered && auth_data._password !== auth_data._password2) {
       return toast.error("Passwords are not mached.");
     }
+
     try {
       setIsLoading(true);
       let user_info = {};
@@ -144,16 +153,32 @@ function AppContainer() {
       if (is_registered) {
         let { data } = await SignupUser(auth_data);
         user_info = data;
-        view = "Buy";
+        if (GuestTransaction.date) {
+          const postData = {
+            user_id: user_info.UserId,
+            email: user_info.user_email,
+            transaction_id: GuestTransaction.id,
+            details: GuestTransaction,
+          };
+          const { data: credits } = await AddTransaction(postData);
+          // console.log(credits);
+          handlePaymentCompleted(credits, GuestTransaction);
+          setGuestTransaction({});
+          setGuest(false);
+          setView("Home");
+        } else {
+          view = "Buy";
+          setTitleCredits(user_info.title_credits);
+          setWebsiteCredits(user_info.website_credits);
+        }
       } else {
         user_info = await loginUser(auth_data);
-        console.log(user_info);
+        // console.log(user_info);
       }
 
       delete user_info.user_password;
       setUser(user_info);
-      setTitleCredits(user_info.title_credits);
-      setWebsiteCredits(user_info.website_credits);
+
       setIsLoading(false);
       setView(view);
     } catch (e) {
@@ -172,7 +197,7 @@ function AppContainer() {
     const user_id = !User ? "guest" : User.UserId;
     const postData = { site_url, user_id };
     const { data: website } = await AddWebsite(postData);
-    setTitleCredits(parseInt(website.title_credits));
+    if (website.title_credits) setTitleCredits(parseInt(website.title_credits));
     my_sites = [website, ...my_sites];
     setMySites(my_sites);
     setIsLoading(false);
@@ -237,9 +262,11 @@ function AppContainer() {
                     className="app-logo img-fluid"
                     style={{ width: "200px" }}
                   />
-                  <h2 className="mt-3">SEO, AI Optimized Titles</h2>
+                  <h2 className="mt-3">
+                    {RegisterPageTitle(GuestTransaction)}
+                  </h2>
                   <p className="mt-3">
-                    Create best titles for your products and increase sales.
+                    {RegisterPageSubtitle(GuestTransaction)}
                   </p>
                   <Button variant="light" onClick={handleDemo}>
                     Launch Demo

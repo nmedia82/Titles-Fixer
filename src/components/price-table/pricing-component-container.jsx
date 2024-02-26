@@ -69,7 +69,7 @@ const PricingContainer = ({
                 onPaymentCompleted(credits, transaction);
                 toast.success("Account Updated.");
               } else {
-                onPaymentCompletedGuest();
+                onPaymentCompletedGuest(transaction);
               }
             }
           },
