@@ -23,7 +23,7 @@ const ProductsList = ({
     consumer_secret: cs,
     WebsiteId,
   } = Website;
-  console.log(User);
+  // console.log(User);
 
   useEffect(() => {
     let titles = Products.map((p) => ({
@@ -41,12 +41,14 @@ const ProductsList = ({
       setIsLoading(true);
       let titles = Titles.filter((t) => t.included);
       //   return console.log(titles);
+      const user_email = !User ? "" : User.user_email;
+      const user_id = !User ? "guest" : User.UserId;
       const postData = {
         site_id: WebsiteId,
-        user_id: UserId,
+        user_id,
         titles,
         user_prompt: "",
-        user_email: User.user_email,
+        user_email,
       };
       const { data } = await FixTitles(postData);
       const { fixed_titles, token_usage, title_credits } = data;

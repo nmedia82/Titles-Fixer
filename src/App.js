@@ -58,6 +58,11 @@ function AppContainer() {
 
   useEffect(() => {
     const fetchData = async () => {
+      // console.log(Guest);
+      if (View === "Login" && User) {
+        setView("Home");
+      }
+
       const urlParams = new URLSearchParams(window.location.search);
 
       const callbackSuccess = urlParams.get("success");
@@ -129,7 +134,7 @@ function AppContainer() {
   };
 
   const handlePaymentCompletedGuest = (transaction) => {
-    // console.log(transaction);
+    console.log(transaction);
     setGuestTransaction(transaction);
     setView("Login");
   };
@@ -268,9 +273,11 @@ function AppContainer() {
                   <p className="mt-3">
                     {RegisterPageSubtitle(GuestTransaction)}
                   </p>
-                  <Button variant="light" onClick={handleDemo}>
-                    Launch Demo
-                  </Button>
+                  {!GuestTransaction.date && (
+                    <Button variant="light" onClick={handleDemo}>
+                      Launch Demo
+                    </Button>
+                  )}
                 </div>
               </div>
               <div className="col-lg-6 p-0 bg-white d-flex align-items-center justify-content-center">
