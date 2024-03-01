@@ -49,7 +49,7 @@ function AppContainer() {
   const [Products, setProducts] = useState([]);
   const [SiteSelected, setSiteSelected] = useState({});
   const [IsLoading, setIsLoading] = useState(false);
-  const [View, setView] = useState("Login");
+  const [View, setView] = useState("Register");
   const [GuestTransaction, setGuestTransaction] = useState({});
   const [activeNavItem, setActiveNavItem] = useState("");
   const [Guest, setGuest] = useState(false);
@@ -59,7 +59,7 @@ function AppContainer() {
   useEffect(() => {
     const fetchData = async () => {
       // console.log(Guest);
-      if (View === "Login" && User) {
+      if (View === "Register" && User) {
         setView("Home");
       }
 
@@ -136,13 +136,13 @@ function AppContainer() {
   const handlePaymentCompletedGuest = (transaction) => {
     console.log(transaction);
     setGuestTransaction(transaction);
-    setView("Login");
+    setView("Register");
   };
 
   const handleLogout = () => {
     logout();
     setUser(null); // Clear user data
-    setView("Login");
+    setView("Register");
   };
 
   const handleAuth = async (auth_data, is_registered) => {
@@ -246,9 +246,13 @@ function AppContainer() {
     setView("Home");
   };
 
+  const isAuthView = () => {
+    return (View === "Register" || View === "Login") && !User;
+  };
+
   return (
     <div className="container-fluid p-0">
-      {View === "Login" && !User && (
+      {isAuthView() && (
         <div className="row m-0 vh-100 p-5 ">
           {IsLoading ? (
             <InfinitySpin
@@ -281,7 +285,7 @@ function AppContainer() {
                 </div>
               </div>
               <div className="col-lg-6 p-0 bg-white d-flex align-items-center justify-content-center">
-                <AuthForm onAuth={handleAuth} />
+                <AuthForm onAuth={handleAuth} View={View} />
               </div>
             </>
           )}

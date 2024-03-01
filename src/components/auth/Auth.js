@@ -1,12 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Form, Button, Alert, Row, Col } from "react-bootstrap";
 import { Login } from "./Login";
 import { Signup } from "./Signup";
 
-function AuthForm({ onAuth }) {
+function AuthForm({ onAuth, View }) {
   const [authData, setAuthData] = useState({});
   const [isRegistered, setIsRegistered] = useState(true);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    const do_register = View === "Login" ? false : true;
+    setIsRegistered(do_register);
+  }, [View]);
 
   const handleInput = (e) => {
     const key = e.target.name;

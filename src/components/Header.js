@@ -31,17 +31,17 @@ const Header = ({ User, onNavClick, activeNavItem }) => {
               </Nav.Link>
               <div className="nav-separator"></div>
               <Nav.Link
-                onClick={() => onNavClick("Login")}
-                active={activeNavItem === "Login"}
-              >
-                Login/Register
-              </Nav.Link>
-              <div className="nav-separator"></div>
-              <Nav.Link
                 onClick={() => onNavClick("Buy")}
                 active={activeNavItem === "Buy"}
               >
                 Packages
+              </Nav.Link>
+              <div className="nav-separator"></div>
+              <Nav.Link
+                onClick={() => onNavClick("Login")}
+                active={activeNavItem === "Login"}
+              >
+                Login
               </Nav.Link>
             </>
           ) : (
