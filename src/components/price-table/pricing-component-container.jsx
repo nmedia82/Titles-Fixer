@@ -16,32 +16,50 @@ const PricingContainer = ({
   const [isMontlyActive, setIsMontlyActive] = useState(false);
   const [paddle, setPaddle] = useState("");
 
-  const paddleEnv = "sandbox";
+  const paddleEnv = "production";
   const paddleToken =
-    paddleEnv === "sandbox" ? "test_4965d0e9be2db08e51a606fbcea" : "";
+    paddleEnv === "sandbox"
+      ? "test_4965d0e9be2db08e51a606fbcea"
+      : "live_ba078a0a4b3a80dfe6d55e10a0b";
+
+  const livePrices = {
+    starter: {
+      price_id: "pri_01hr6e5gdkc830s7sdvrz7t3hm",
+      title_credits: 300,
+      website_credits: 1,
+    },
+    economy: {
+      price_id: "pri_01hr6e7ymq3sjhm9tkppw9p97v",
+      title_credits: 1000,
+      website_credits: 3,
+    },
+    agency: {
+      price_id: "pri_01hr6e5gdkc830s7sdvrz7t3hm",
+      title_credits: 3000,
+      website_credits: 5,
+    },
+  };
 
   const sandboxPrices = {
     starter: {
       price_id: "pri_01hm99j6d0vcvfbgd53h8h1fkn",
-      title_credits: 100,
+      title_credits: 300,
       website_credits: 1,
     },
     economy: {
       price_id: "pri_01hm99kjypqbtdxhc570kmans6",
       title_credits: 1000,
-      website_credits: 5,
+      website_credits: 3,
     },
     agency: {
       price_id: "pri_01hm99nafz9ppcqz5axe38wnpt",
-      title_credits: 5000,
-      website_credits: 25,
+      title_credits: 3000,
+      website_credits: 5,
     },
   };
 
   useEffect(() => {
     async function initializePaddleInstance() {
-      // Replace 'ENVIRONMENT_GOES_HERE' and 'AUTH_TOKEN_GOES_HERE' with your values
-
       try {
         const paddleInstance = await initializePaddle({
           environment: paddleEnv,
@@ -83,7 +101,7 @@ const PricingContainer = ({
     }
 
     initializePaddleInstance();
-  }, [User, paddleToken, onPaymentCompleted]);
+  }, [User, paddleToken, onPaymentCompleted, onPaymentCompletedGuest]);
 
   const togglePricing = () => {
     setIsMontlyActive(!isMontlyActive);
@@ -93,7 +111,7 @@ const PricingContainer = ({
     // return console.log(paddle);
     // Define the items for Paddle checkout
     const { price_id, title_credits, website_credits } =
-      paddleEnv === "sandbox" ? sandboxPrices[plan] : "";
+      paddleEnv === "sandbox" ? sandboxPrices[plan] : livePrices[plan];
     const credits = 50;
     const checkout_settings = {
       items: [
@@ -106,9 +124,7 @@ const PricingContainer = ({
     };
 
     // Use the 'credits' value and 'price_id' in your Paddle code
-    console.log(
-      `Clicked button with ${credits} credits. Price ID: ${price_id}`
-    );
+    console.log(checkout_settings);
 
     // Open Paddle checkout with the specified items
     paddle?.Checkout.open(checkout_settings);
@@ -125,9 +141,9 @@ const PricingContainer = ({
         <label className="pricing-card-container" htmlFor="switch">
           <PricingComponent
             pricingHeader="Starter"
-            priceAnnually="9.99"
-            priceMonthly="6.99"
-            titlesAllowed="200 Titles"
+            priceAnnually="5.00"
+            priceMonthly="5.00"
+            titlesAllowed="300 Titles"
             websitesAllowed="Single Website"
             fastProcessingAllowed="Fast Processing"
             isMonthlyActive={isMontlyActive}
@@ -135,20 +151,20 @@ const PricingContainer = ({
           />
           <PricingComponent
             pricingHeader="Economy"
-            priceAnnually="49.99"
-            priceMonthly="24.99"
+            priceAnnually="25.00"
+            priceMonthly="25.00"
             titlesAllowed="1000 Titles"
-            websitesAllowed="5 Websites"
+            websitesAllowed="3 Websites"
             fastProcessingAllowed="Fast Processing"
             isMonthlyActive={isMontlyActive}
             onBuyPlan={() => handleBuyPlan("economy")}
           />
           <PricingComponent
             pricingHeader="Agency"
-            priceAnnually="99.99"
-            priceMonthly="75.99"
-            titlesAllowed="5000 Titles"
-            websitesAllowed="15 Websites"
+            priceAnnually="50.00"
+            priceMonthly="50.00"
+            titlesAllowed="3000 Titles"
+            websitesAllowed="5 Websites"
             fastProcessingAllowed="Fast Processing"
             isMonthlyActive={isMontlyActive}
             onBuyPlan={() => handleBuyPlan("agency")}
