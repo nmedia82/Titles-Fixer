@@ -32,15 +32,14 @@ body {
 .auth-btn:hover {
 	background-color: #4fa94d;
 }
-
 /* Footer CSS */
 .footer {
 	background-color: #198754;
-	padding: 35px 15px 5px 15px;
+	padding: 10px 15px 5px 15px;
 	color: #fff;
 	width: 100%;
-	position: relative;
-	top: 100px;
+	position: absolute;
+	bottom: 0px;
 }
 .privacy-nav-item {
 	background: none;
