@@ -1,47 +1,63 @@
 body {
-  /* background-image: url("./images/bg1.jpg"); */
-  background-color: #e6e7eb;
-  background-size: cover;
-  background-repeat: no-repeat;
-  /* background-color: rgba(86, 107, 225, 0.708); */
+	/* background-image: url("./images/bg1.jpg"); */
+	background-color: #e6e7eb;
+	background-size: cover;
+	background-repeat: no-repeat;
+	/* background-color: rgba(86, 107, 225, 0.708); */
 }
 
 .nav-separator {
-  width: 1px;
-  height: 30px; /* Adjust the height as needed */
-  background-color: #ddd; /* Adjust the color as needed */
-  margin: 0 10px; /* Adjust the margin as needed for spacing */
+	width: 1px;
+	height: 30px; /* Adjust the height as needed */
+	background-color: #ddd; /* Adjust the color as needed */
+	margin: 0 10px; /* Adjust the margin as needed for spacing */
 }
 .nav-color {
-  color: #fff;
-  font-weight: 500;
+	color: #fff;
+	font-weight: 500;
 }
 .app-header {
-  justify-content: end;
-  background-color: #198754;
-  padding: 15px 10px;
+	justify-content: end;
+	background-color: #198754;
+	padding: 15px 10px;
 }
 .bg-blue-custom {
-  background-color: #5721b7;
+	background-color: #5721b7;
 }
 .auth-btn {
-  background-color: #5721b7;
-  border: none;
-  /* color: #FDFD96; */
+	background-color: #5721b7;
+	border: none;
+	/* color: #FDFD96; */
 }
 .auth-btn:hover {
-  background-color: #4fa94d;
+	background-color: #4fa94d;
+}
+
+/* Footer CSS */
+.footer {
+	background-color: #198754;
+	padding: 35px 15px 25px 15px;
+	color: #fff;
+	position: relative;
+	top: 100px;
+	width: 100%;
+}
+.privacy-nav-item {
+	background: none;
+	border: none;
+	padding: 0px;
+	color: #fff;
 }
 @media screen and (max-width: 991px) {
-  .app-header {
-    justify-content: space-between;
-  }
+	.app-header {
+		justify-content: space-between;
+	}
 }
 @media screen and (max-width: 430px) {
-  /* Your CSS styles for screens with max-width of 430px go here */
+	/* Your CSS styles for screens with max-width of 430px go here */
 
-  .app-header {
-    flex-direction: column;
-    gap: 16px;
-  }
+	.app-header {
+		flex-direction: column;
+		gap: 16px;
+	}
 }
