@@ -27,7 +27,7 @@ const Header = ({ User, onNavClick, activeNavItem }) => {
                 onClick={() => onNavClick("Home")}
                 active={activeNavItem === "Home"}
               >
-                Home
+                My Sites
               </Nav.Link>
               <div className="nav-separator"></div>
               <Nav.Link
@@ -55,7 +55,7 @@ const Header = ({ User, onNavClick, activeNavItem }) => {
                 onClick={() => onNavClick("Home")}
                 active={activeNavItem === "Home"}
               >
-                Home
+                My Sites
               </Nav.Link>
               <div className="nav-separator"></div>
               <Nav.Link
