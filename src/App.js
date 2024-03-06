@@ -238,9 +238,9 @@ function AppContainer() {
 	};
 
 	return (
-		<div className="container-fluid p-0">
+		<div className="container-fluid min-vh-100">
 			{isAuthView() && (
-				<div className="row m-0 vh-100 p-5 ">
+				<div className="row m-0 min-vh-100 p-5 ">
 					{IsLoading ? (
 						<InfinitySpin
 							visible={true}
@@ -288,7 +288,7 @@ function AppContainer() {
 						User={User}
 						// activeNavItem={(nav) => setActiveNavItem(nav)}
 					/>
-					<div className="row mt-4">
+					<div className="row mt-4 min-vh-100">
 						{IsLoading ? (
 							<InfinitySpin
 								visible={true}
