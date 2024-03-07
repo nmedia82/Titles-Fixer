@@ -1,9 +1,11 @@
 import React from 'react';
 import { Nav } from 'react-bootstrap';
 
-const Footer = ({ onNavClick, activeNavItem }) => {
+const Footer = ({ onNavClick, activeNavItem, className }) => {
+	// const privacyFooter = showFooter ? 'footer privacyFooter' : 'footer hidden';
+
 	return (
-		<footer className="footer">
+		<footer className={className}>
 			<div className="row mt-2">
 				<div className="col-md-12 text-center">
 					<p className="mb-0 d-flex justify-content-center">

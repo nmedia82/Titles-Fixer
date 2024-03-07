@@ -41,11 +41,28 @@ body {
 	position: absolute;
 	bottom: 0px;
 }
+.privacyFooter {
+	background-color: #198754;
+	padding: 10px 15px 5px 15px;
+	color: #fff;
+	width: 100%;
+	position: absolute;
+	bottom: auto;
+}
 .privacy-nav-item {
 	background: none;
 	border: none;
 	padding: 0px;
 	color: #fff;
+}
+/* Privacy Policy Font Size */
+.privacy-h-text {
+	font-size: 0.9em;
+	font-weight: 700;
+}
+.privacy-p-text {
+	font-size: 0.7em;
+	font-weight: 500;
 }
 @media screen and (max-width: 991px) {
 	.app-header {
