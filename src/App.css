@@ -37,7 +37,7 @@ body {
 	background-color: #198754;
 	padding: 10px 15px 5px 15px;
 	color: #fff;
-	width: 100%;
+	width: 98%;
 	position: absolute;
 	bottom: 0px;
 }
@@ -45,7 +45,7 @@ body {
 	background-color: #198754;
 	padding: 10px 15px 5px 15px;
 	color: #fff;
-	width: 100%;
+	width: 98%;
 	position: absolute;
 	bottom: auto;
 }
@@ -55,12 +55,32 @@ body {
 	padding: 0px;
 	color: #fff;
 }
-/* Privacy Policy Font Size */
+/* Intro Text */
+.intro-text {
+	text-align: center;
+	font-weight: 400;
+	color: #198754;
+}
+.intro-text-container {
+	border-bottom: 1px solid #a29fa8;
+	border-top: 1px solid #a29fa8;
+	margin-bottom: 20px;
+	padding-top: 15px;
+}
+/* Privacy Policy & Terms & Conditions Font Size */
 .privacy-h-text {
 	font-size: 0.9em;
 	font-weight: 700;
 }
 .privacy-p-text {
+	font-size: 0.7em;
+	font-weight: 500;
+}
+.terms-h-text {
+	font-size: 0.9em;
+	font-weight: 700;
+}
+.terms-p-text {
 	font-size: 0.7em;
 	font-weight: 500;
 }
