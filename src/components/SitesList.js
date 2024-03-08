@@ -16,12 +16,14 @@ const SitesList = ({ sites, onFetchProducts, onRemoveSite }) => {
 
     // Define the query parameters
     const params = new URLSearchParams({
-      app_name: "Title Fixerr",
+      app_name: "Title Fixer",
       scope: "read_write",
-      user_id: `${user_id}:${WebsiteId}`,
+      user_id: `${user_id}_${WebsiteId}`,
       return_url: returnURL,
       callback_url: callbackURL,
     });
+
+    console.log(params.get("user_id"));
 
     // Append the query parameters to the endpoint
     const endpointWithParams = `${endpoint}?${params.toString()}`;

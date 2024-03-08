@@ -82,7 +82,7 @@ function AppContainer() {
       }
 
       if (callbackSuccess === "1") {
-        const [userId, websiteId] = user_id.split(":");
+        const [userId, websiteId] = user_id.split("_");
         setIsLoading(true);
 
         try {
