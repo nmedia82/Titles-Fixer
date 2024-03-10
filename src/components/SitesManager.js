@@ -26,24 +26,26 @@ const SitesManager = ({
 
   return (
     <div>
-      <div className="intro-text-container">
-        <Card>
-          <Card.Header>About TitleFixer</Card.Header>
-          <Card.Body>
-            TitleFixer.io is an AI-powered tool designed to enhance and optimize
-            your content titles, making them more engaging and SEO-friendly. It
-            uses advanced algorithms to analyze and improve your titles for
-            better visibility and click-through rates. Users simply input their
-            existing titles into TitleFixer.io, and our AI analyzes them based
-            on current SEO best practices and engagement metrics. TitleFixer.io
-            offers easy integration options for various platforms. No plugin, No
-            coding required. Just add website URL, connect it with our app and
-            you ready to use it.
-          </Card.Body>
-        </Card>
-        <h4 style={{ color: "#ed8b00" }} className="text-center"></h4>
-        <p className="intro-text"></p>
-      </div>
+      {MySites.length === 0 && (
+        <div className="intro-text-container">
+          <Card>
+            <Card.Header>About TitleFixer</Card.Header>
+            <Card.Body>
+              TitleFixer.io is an AI-powered tool designed to enhance and
+              optimize your content titles, making them more engaging and
+              SEO-friendly. It uses advanced algorithms to analyze and improve
+              your titles for better visibility and click-through rates. Users
+              simply input their existing titles into TitleFixer.io, and our AI
+              analyzes them based on current SEO best practices and engagement
+              metrics. TitleFixer.io offers easy integration options for various
+              platforms. No plugin, No coding required. Just add website URL,
+              connect it with our app and you ready to use it.
+            </Card.Body>
+          </Card>
+          <h4 style={{ color: "#ed8b00" }} className="text-center"></h4>
+          <p className="intro-text"></p>
+        </div>
+      )}
       <InputGroup className="mb-3" size="lg">
         <Form.Control
           placeholder="e.g: https://mystore.com"
