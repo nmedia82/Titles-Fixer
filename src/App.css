@@ -49,6 +49,14 @@ body {
 	position: absolute;
 	bottom: auto;
 }
+.buyFooter {
+	background-color: #198754;
+	padding: 10px 15px 5px 15px;
+	color: #fff;
+	width: 98%;
+	position: absolute;
+	bottom: 0px;
+}
 .privacy-nav-item {
 	background: none;
 	border: none;

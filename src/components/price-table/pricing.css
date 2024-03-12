@@ -234,10 +234,10 @@ body {
 
 @media (max-width: 950px) {
 	.pricing-container {
-		height: 200vh;
+		height: 150vh;
 	}
 	.pricing-body {
-		transform: translate(-50%, -44%);
+		/* transform: translate(-50%, -44%); */
 	}
 	.pricing-card-container {
 		flex-wrap: wrap;
@@ -253,5 +253,13 @@ body {
 	}
 	.pricing-container img:nth-child(2) {
 		width: 50%;
+	}
+	.buyFooter {
+		background-color: #198754;
+		padding: 10px 15px 5px 15px;
+		color: #fff;
+		width: 98%;
+		position: absolute;
+		bottom: auto;
 	}
 }
